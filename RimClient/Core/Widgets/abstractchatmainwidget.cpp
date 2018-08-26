@@ -77,6 +77,7 @@ protected:
     {
         initWidget();
         fileList = NULL;
+        historyRecord = NULL;
     }
 
     void initWidget();
@@ -133,13 +134,11 @@ void AbstractChatMainWidgetPrivate::initWidget()
     view->setWindowFlags(q_ptr->windowFlags() | Qt::FramelessWindowHint);   //FIXME LYS-20180718 修复显示大量数据时界面刷新问题
     view->setPage(page);
     QObject::connect(view,SIGNAL(loadFinished(bool)),q_ptr,SLOT(finishLoadHTML(bool)));
-
     fontWidget = new SetFontWidget(q_ptr);
     fontWidget->setVisible(false);
     QObject::connect(fontWidget,SIGNAL(fontModeChanged(int)),q_ptr,SLOT(setMsgShowMode(int)));
     QObject::connect(fontWidget,SIGNAL(fontChanged(QFont)),q_ptr,SLOT(setInputAreaFont(QFont)));
     QObject::connect(fontWidget,SIGNAL(fontColorChanged(QColor)),q_ptr,SLOT(setInputAreaColor(QColor)));
-
     chatAudioArea = new ChatAudioArea(q_ptr);
     chatAudioArea->setVisible(false);
     QObject::connect(chatAudioArea,SIGNAL(prepareSendAudio()),q_ptr,SLOT(prepareSendAudio()));
@@ -152,7 +151,6 @@ void AbstractChatMainWidgetPrivate::initWidget()
     chatLayout->addWidget(fontWidget);
     chatLayout->addWidget(chatAudioArea);
     chatRecordWidget->setLayout(chatLayout);
-
     //聊天信息输入窗口
     inputWidget = new QWidget(q_ptr);
     QVBoxLayout *inputLayout = new QVBoxLayout;
@@ -215,7 +213,6 @@ void AbstractChatMainWidgetPrivate::initWidget()
     screenShotMenu->addAction(G_pScreenShotAction);
     screenShotMenu->addAction(G_pHideWindowAction);
     screenShotButt->setMenu(screenShotMenu);
-
     //消息提醒设置按钮（仅群聊可用）
     msgNoticeButt = new RToolButton();
     msgNoticeButt->setObjectName(Constant::Tool_Chat_MsgNotice);
@@ -246,12 +243,10 @@ void AbstractChatMainWidgetPrivate::initWidget()
     chatToolBar->appendToolButton(recordButt);
 
     QObject::connect(G_pScreenShot,SIGNAL(sig_ShotReady(bool)),q_ptr,SLOT(screenShotReady(bool)));
-
     chatInputArea = new SimpleTextEdit(inputWidget);
     chatInputArea->setFocus();
     QObject::connect(chatInputArea,SIGNAL(sigEnter()),q_ptr,SLOT(enterSend()));
     QObject::connect(chatInputArea,SIGNAL(sigDropFile(QString)),q_ptr,SLOT(dealDropFile(QString)));
-
     /**********底部按钮区***************/
     QWidget *buttonWidget = new QWidget(inputWidget);
     buttonWidget->setFixedHeight(35);
@@ -278,7 +273,6 @@ void AbstractChatMainWidgetPrivate::initWidget()
     composeLayout->setContentsMargins(0,0,0,0);
     composeLayout->addWidget(sendMessButton);
     composeLayout->addWidget(extralButton);
-
     buttonLayout->addStretch(1);
     buttonLayout->addWidget(closeButton);
     buttonLayout->addLayout(composeLayout);
@@ -296,7 +290,6 @@ void AbstractChatMainWidgetPrivate::initWidget()
     chatSplitter->setStretchFactor(1,1);
 
     leftLayout->addWidget(chatSplitter);
-
     //聊天窗口右边栏（显示消息记录、发送文件子窗口）
     rightSideWidget = new QTabWidget(q_ptr);
     rightSideWidget->setFixedWidth(RIGHTSIDE_WIDTH);
@@ -353,6 +346,14 @@ AbstractChatMainWidget::AbstractChatMainWidget(QWidget *parent) :
 
 AbstractChatMainWidget::~AbstractChatMainWidget()
 {
+    MQ_D(AbstractChatMainWidget);
+
+    if(d->historyRecord)
+    {
+        d->historyRecord->close();
+        delete d->historyRecord;
+        d->historyRecord = NULL;
+    }
 }
 
 /*!
@@ -1109,6 +1110,16 @@ void AbstractChatMainWidget::respCloseRightSideTab(int index)
     MQ_D(AbstractChatMainWidget);
 
     d->rightSideWidget->removeTab(index);
+    int hisIndex = d->rightSideWidget->indexOf(d->historyRecord);
+    if(hisIndex == index)
+    {
+        if(d->historyRecord)
+        {
+            d->historyRecord->close();
+            delete d->historyRecord;
+            d->historyRecord = NULL;
+        }
+    }
     if(d->rightSideWidget->count() == 0)
     {
         setSideVisible(false);
@@ -1158,6 +1169,11 @@ void AbstractChatMainWidget::closeRightSideTab(RightTabType tabType)
         if(d->historyRecord)
         {
             d->rightSideWidget->removeTab(d->rightSideWidget->indexOf(d->historyRecord));
+            if(d->historyRecord)
+            {
+                d->historyRecord->close();
+                d->historyRecord = NULL;
+            }
         }
         break;
     case SendFile:

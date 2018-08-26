@@ -297,6 +297,8 @@ void HistoryMsgRecord::appendTextMsg(ChatInfoUnit &textMsg, HisoryType pageType)
 {
     MQ_D(HistoryMsgRecord);
 
+    RUtil::escapeLFQuote(textMsg.contents);
+    RUtil::escapeDoubleQuote(textMsg.contents);
     QString t_runSCript = spliceAppendTextMsg(textMsg);
 
     switch (pageType) {
@@ -321,6 +323,7 @@ void HistoryMsgRecord::appendImageMsg(ChatInfoUnit &imgMsg, HisoryType pageType)
     MQ_D(HistoryMsgRecord);
 
     QString t_runSCript = spliceAppendImageMsg(imgMsg);
+
     switch (pageType) {
     case ALLHISTORY:
         d->allView->page()->runJavaScript(t_runSCript);
@@ -346,6 +349,7 @@ void HistoryMsgRecord::appendFileMsg(ChatInfoUnit &fileMsg, HisoryType pageType)
     MQ_D(HistoryMsgRecord);
 
     QString t_runSCript = spliceAppendFileMsg(fileMsg);
+
     switch (pageType) {
     case ALLHISTORY:
         d->allView->page()->runJavaScript(t_runSCript);
@@ -377,6 +381,7 @@ void HistoryMsgRecord::appendNoticeMsg(QString notice, HisoryType pageType, Noti
     MQ_D(HistoryMsgRecord);
 
     QString t_runSCript = spliceAppendNoticeMsg(notice,type);
+
     switch (pageType) {
     case ALLHISTORY:
         d->allView->page()->runJavaScript(t_runSCript);
@@ -398,6 +403,7 @@ void HistoryMsgRecord::appendDateMsg(QDate curDate,HisoryType pageType)
     MQ_D(HistoryMsgRecord);
 
     QString t_runSCript = spliceAppendDateLine(curDate);
+
     switch (pageType) {
     case ALLHISTORY:
         d->allView->page()->runJavaScript(t_runSCript);
@@ -419,6 +425,7 @@ void HistoryMsgRecord::clearShow(HistoryMsgRecord::HisoryType pageType)
     MQ_D(HistoryMsgRecord);
 
     QString t_runSCript = QString("removeAllRecord()");
+
     switch (pageType) {
     case ALLHISTORY:
         d->allView->page()->runJavaScript(t_runSCript);
