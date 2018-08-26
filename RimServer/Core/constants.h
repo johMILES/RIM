@@ -28,6 +28,8 @@ const char PATH_StylePath[] = "/style";
 const char PATH_SystemIconPath[] = "/systemIcon";
 const char CONFIG_LocalePath[] = "/translations";
 
+/*************************************************<配置文件>******************************************************/
+
 /*系统设置*/
 const char GroupNetwork[] = "Network";
 const char DB_THREAD[] = "MessageRecvProcCount";
@@ -42,11 +44,24 @@ const char LOG_LOG[] = "log";
 const char LOG_LOG_RECORDFILE[] = "log2File";
 const char LOG_LOG_LEVEL[] = "logLevel";
 
+//文件接收模块
 const char FileServerSetting[] = "FileServer";
 const char UPLOAD_FILE_PATH [] = "UploadFilePath";
 
+//数据发送模块
 const char TRANS_SETTING[] = "TransSetting";
 const char BROADCAST_DEST_NODE[] = "BroadcastNodes";
+
+//数据库模块
+const char DB_SETTING[] = "Database";
+const char DB_TYPE[] = "Dbtype";
+const char DB_HOST[] = "Hostname";
+const char DB_DATABASE_NAME[] = "DatabaseName";
+const char DB_USERNAME[] = "UserName";
+const char DB_PASSWORD[] = "Password";
+const char DB_PORT[] = "Port";
+
+/*************************************************</配置文件>******************************************************/
 
 
 const char SELECTED_LINE_COLOR[] = "rgb(34, 175, 75)";              /*!< 选中行的背景颜色 */
@@ -59,6 +74,35 @@ const char LOCAL_ROUTE_CONFIG_FILE[] = "LocalRouteConfigFile";                 /
              若控件属于全局，采用[类型_功能_类型]:TOOL_MIN  Tool_Min_Button
 
 */
+
+//插件
+const char PLUGIN_BASEINFO[] = "Rimserver.Plugin.BaseInfo";
+const char PLUGIN_CONNECTION[] = "Rimserver.Plugin.Connection";
+const char PLUGIN_OPERATE[] = "Rimserver.Plugin.Operate";
+
+//菜单栏
+const char MENU_BAR[] = "Rimserver.MenuBar";
+
+//菜单栏分组
+const char G_PROGRAM[]  = "Rimserver.Group.Program";
+const char G_SETTING[]  = "Rimserver.Group.Setting";
+const char G_HELP[]     = "Rimserver.Group.Help";
+const char DEFAULT_GROUP[] = "Rimserver.Default.Group";
+
+//G_PROGRAM 分组
+const char PROGRAM_EXIT[] = "Rimserver.Program.Exit";
+
+//Setting 分组
+const char TOP_HINT[] = "Rimserver.Setting.TopHint";
+const char FULL_SCREEN[] = "Rimserver.Setting.FullScreen";
+const char ROUTE_TABLE_SETTING[] = "Rimserver.Setting.RouteSetting";
+const char SERIPORT_SETTING[] = "Rimserver.Setting.SeriportSetting";
+
+//G_HELP 分组
+const char TEC_SUPPORT[] = "Rimserver.Help.TecSupport";
+const char ABOUT_PROGRAM[] = "Rimserver.Help.About";
+
+//右键菜单
 const char MENU_ROUTE_TABLE_SERVER[] = "Menu.Route.Table.Server";             //路由表中服务器右键菜单
 
 const char ACTION_ROUTE_SERVER_NEW[] = "Action_Route_Server_New";             //新建分组

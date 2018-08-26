@@ -5,35 +5,56 @@
 #include "Util/rlog.h"
 #include "Util/rutil.h"
 
-DatabaseManager::DatabaseManager():
-    m_hostName(""),m_dbName(""),m_dbUser(""),m_dbPass(""),m_port(0)
+DatabaseManager::DatabaseManager()
 {
 
 }
 
 void DatabaseManager::setDatabaseType(Datastruct::DatabaseType type)
 {
-    m_dbType = type;
+    dbConfigInfo.dbType = type;
 }
 
-void DatabaseManager::setConnectInfo(const QString host, const QString dbName, const QString user, const QString pass, const int port)
+void DatabaseManager::setConnectInfo(Datastruct::DatabaseConfigInfo configInfo)
 {
-    m_hostName = host;
-    m_dbName = dbName;
-    m_dbUser = user;
-    m_dbPass = pass;
-    m_port = port;
+    this->dbConfigInfo = configInfo;
+}
+
+QString DatabaseManager::getDatabaseName(Datastruct::DatabaseType type)
+{
+    switch(type){
+        case Datastruct::DB_MYSQL:
+                return QString("QMYSQL");
+            break;
+        case Datastruct::DB_ORACLE:
+                return QString("QORACLE");
+            break;
+        default:
+            break;
+    }
+    return QString("");
+}
+
+Datastruct::DatabaseType DatabaseManager::getDatabaseType(QString dbType)
+{
+    dbType = dbType.toUpper();
+    if(dbType == "QMYSQL")
+        return Datastruct::DB_MYSQL;
+    else if(dbType == "QORACLE")
+        return Datastruct::DB_ORACLE;
+    else
+        return Datastruct::DB_NONE;
 }
 
 Database *DatabaseManager::newDatabase(QString connectionName)
 {
-    Database * db = new Database(m_dbType,connectionName);
+    Database * db = new Database(dbConfigInfo.dbType,connectionName);
     if(db->init())
     {
-        db->setHostName(m_hostName);
-        db->setDatabaseName(m_dbName);
-        db->setUserName(m_dbUser);
-        db->setPassword(m_dbPass);
+        db->setHostName(dbConfigInfo.hostName);
+        db->setDatabaseName(dbConfigInfo.dbName);
+        db->setUserName(dbConfigInfo.dbUser);
+        db->setPassword(dbConfigInfo.dbPass);
 
         db->open();
     }
@@ -42,13 +63,13 @@ Database *DatabaseManager::newDatabase(QString connectionName)
 
 Database DatabaseManager::database(QString connectionName)
 {
-    Database db(m_dbType,connectionName);
+    Database db(dbConfigInfo.dbType,connectionName);
     if(db.init())
     {
-        db.setHostName(m_hostName);
-        db.setDatabaseName(m_dbName);
-        db.setUserName(m_dbUser);
-        db.setPassword(m_dbPass);
+        db.setHostName(dbConfigInfo.hostName);
+        db.setDatabaseName(dbConfigInfo.dbName);
+        db.setUserName(dbConfigInfo.dbUser);
+        db.setPassword(dbConfigInfo.dbPass);
 
         db.open();
     }
@@ -62,7 +83,7 @@ Database DatabaseManager::database(QString connectionName)
  */
 bool DatabaseManager::hasFeature(QSqlDriver::DriverFeature feature)
 {
-    static Database db(m_dbType);
+    static Database db(dbConfigInfo.dbType);
     if(db.init()){
         return db.sqlDatabase().driver()->hasFeature(feature);
     }

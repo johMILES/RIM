@@ -22,6 +22,7 @@ extern ParameterSettings::RouteSettings* G_RouteSettings;   /*!< 路由配置信
 #endif
 
 extern GlobalConfigFile * G_GlobalConfigFile;
+
 }
 
 #endif // GLOBAL_H

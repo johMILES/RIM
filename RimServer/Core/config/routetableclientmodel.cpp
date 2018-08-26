@@ -93,7 +93,7 @@ QVariant RouteTableClientModel::data(const QModelIndex &index, int role) const
             break;
 
             case Qt::BackgroundColorRole:
-                    return row % 2 == 0 ? QColor(240,240,240,200) : QVariant();
+//                    return row % 2 == 0 ? QColor(240,240,240,200) : QVariant();
                 break;
 
             default:

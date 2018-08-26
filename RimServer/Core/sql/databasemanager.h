@@ -22,7 +22,10 @@ class DatabaseManager
 public:
     DatabaseManager();
     void setDatabaseType(Datastruct::DatabaseType type);
-    void setConnectInfo(const QString host,const QString dbName,const QString user,const QString pass,const int port = 0);
+    void setConnectInfo(Datastruct::DatabaseConfigInfo configInfo);
+
+    static QString getDatabaseName(Datastruct::DatabaseType type);
+    static Datastruct::DatabaseType getDatabaseType(QString dbType);
 
     Database * newDatabase(QString connectionName = "");
     Database database(QString connectionName = "");
@@ -31,14 +34,7 @@ public:
     QStringList availableDrivers();
 
 private:
-    QString m_hostName;
-    QString m_dbName;
-    QString m_dbUser;
-    QString m_dbPass;
-
-    Datastruct::DatabaseType m_dbType;
-
-    unsigned short m_port;
+    Datastruct::DatabaseConfigInfo dbConfigInfo;
 };
 
 #endif // DATABASEMANAGER_H

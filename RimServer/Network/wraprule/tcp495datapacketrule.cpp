@@ -11,6 +11,7 @@
 #include "Util/rsingleton.h"
 #include "Util/scaleswitcher.h"
 #include "tcp_wraprule.h"
+#include "../connection/tcpclient.h"
 
 namespace ServerNetwork{
 
@@ -40,6 +41,7 @@ void TCP495DataPacketRule::bindContext(IocpContext * context, unsigned long recv
     ioContext = context;
 
     ioContext->getPakcet()[recvLen] = 0;
+    ioContext->getClient()->sendBytes += recvLen;
     int lastRecvBuffSize = ioContext->getClient()->getHalfPacketBuff().size();
     if(lastRecvBuffSize > 0)
     {
@@ -114,6 +116,10 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, IocpContextSender sendFunc)
                 return false;
 
             if(realSendLen == currPackTotalLen){
+                TcpClient * client = TcpClientManager::instance()->getClient(dunit.sockId);
+                if(client){
+                    client->recvBytes+=realSendLen;
+                }
                 return true;
             }
         }else if(dunit.dataUnit.fileType == QDB2051::F_NO_SUFFIX || dunit.dataUnit.fileType == QDB2051::F_TEXT){
@@ -133,6 +139,7 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, IocpContextSender sendFunc)
             int totalIndex = countTotoalIndex(packAllLen);
 
             QByteArray originalData = dunit.dataUnit.data;
+            DWORD totalBytes = 0;
             for(unsigned int i = 0; i < totalIndex; i++)
             {
                 packet.offset = ScaleSwitcher::htons(i);
@@ -157,12 +164,17 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, IocpContextSender sendFunc)
 
                 if(realSendLen == currPackTotalLen){
                     sendDataLen += (sliceLen);
+                    totalBytes+= realSendLen;
                 }else{
                     break;
                 }
             }
 
             if(sendDataLen == originalData.length()){
+                TcpClient * client = TcpClientManager::instance()->getClient(dunit.sockId);
+                if(client){
+                    client->recvBytes+=totalBytes;
+                }
                 return true;
             }
         }
@@ -208,6 +220,10 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, ByteSender sendFunc)
         int realSendLen = sendFunc(dunit.sockId,sendBuff,currPackTotalLen);
 
         if(realSendLen == currPackTotalLen){
+            TcpClient * client = TcpClientManager::instance()->getClient(dunit.sockId);
+            if(client){
+                client->recvBytes+=realSendLen;
+            }
             return true;
         }
     }else if(dunit.dataUnit.fileType == QDB2051::F_NO_SUFFIX || dunit.dataUnit.fileType == QDB2051::F_TEXT){
@@ -226,7 +242,7 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, ByteSender sendFunc)
         int totalIndex = countTotoalIndex(packAllLen);
 
         QByteArray originalData = dunit.dataUnit.data;
-
+        DWORD totalBytes = 0;
         for(unsigned int i = 0; i < totalIndex; i++)
         {
             packet.offset = ScaleSwitcher::htons(i);
@@ -248,12 +264,17 @@ bool TCP495DataPacketRule::wrap(SendUnit &dunit, ByteSender sendFunc)
 
             if(realSendLen == currPackTotalLen){
                 sendDataLen += sliceLen;
+                totalBytes += realSendLen;
             }else{
                 break;
             }
         }
 
         if(sendDataLen == originalData.length()){
+            TcpClient * client = TcpClientManager::instance()->getClient(dunit.sockId);
+            if(client){
+                client->recvBytes+=totalBytes;
+            }
             return true;
         }
     }
@@ -372,6 +393,7 @@ void TCP495DataPacketRule::recvData(const char *recvData, int recvLen)
                     if(packet.offset == 0){
                         ioContext->getClient()->addFileId(RecvFileTypeId(RecvFileTypeId(packet.sourceAddr,packet.destAddr,packet.serialNo,ptype)));
                     }
+                    ioContext->getClient()->recvPacks++;
                     socketData.extendData.type = SOCKET_FILE;
                     socketData.data.resize(currentDataPackLen);
                     memcpy(socketData.data.data(),recvData + processLen,currentDataPackLen);
@@ -383,6 +405,7 @@ void TCP495DataPacketRule::recvData(const char *recvData, int recvLen)
                     //[1.1.1]一包数据
                     if(packet.packAllLen == packet.packLen)
                     {
+                        ioContext->getClient()->recvPacks++;
                         socketData.extendData.sliceNum = packet.offset + 1;
                         socketData.extendData.type = SOCKET_TEXT;
                         socketData.data.resize(currentDataPackLen);
@@ -399,7 +422,7 @@ void TCP495DataPacketRule::recvData(const char *recvData, int recvLen)
 
                         //currentDataPackLen的第一包长度=sizeof(21)+sizeof(2051)+数据长度，第二包开始currentDataPackLen=真实数据长度
                         memcpy(data.data(),ioContext->getPakcet() + processLen,currentDataPackLen);
-
+                        ioContext->getClient()->recvPacks++;
                         std::unique_lock<std::mutex> ul(ioContext->getClient()->BuffMutex());
                         if(ioContext->getClient()->getPacketBuffs().value(packet.serialNo,NULL) == NULL)
                         {

@@ -293,7 +293,7 @@ bool XMLParse::saveRouteSettings(const QString &fileName, ParameterSettings::Rou
     QTextStream stream(&file);
     stream.setCodec(QTextCodec::codecForLocale());
 
-    QDomDocument doc("Route table");
+    QDomDocument doc("RouteTable");
 
     QDomProcessingInstruction instruction = doc.createProcessingInstruction("xml","version='1.0' encoding='UTF-8'");
     doc.appendChild(instruction);
