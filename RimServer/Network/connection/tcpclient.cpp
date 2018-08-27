@@ -139,6 +139,7 @@ TcpClient::TcpClient()
     onlineState = 0;
     cSocket = 0;
     cPort = 0;
+    recvBytes = sendBytes = recvPacks = 0;
 }
 
 TcpClient::~TcpClient()
@@ -256,6 +257,27 @@ TcpClient *TcpClientManager::addClient(int sockId, char *ip, unsigned short port
     clientList.push_back(client);
 
     return client;
+}
+
+TcpClientManager::ClientInfoList TcpClientManager::getAnchorPoint()
+{
+    std::lock_guard<std::mutex> lg(mutex);
+    ClientInfoList clientInfos;
+
+    std::for_each(clientList.begin(),clientList.end(),[&clientInfos](const TcpClient* client){
+        if(client){
+            SimpleClientInfo info;
+            info.accountId = client->accountId.toUShort();
+            info.ip = client->ip();
+            info.cPort = client->port();
+            info.recvBytes = client->recvBytes;
+            info.sendBytes = client->sendBytes;
+            info.recvPacks = client->recvPacks;
+            clientInfos.push_back(info);
+        }
+    });
+
+    return clientInfos;
 }
 
 int TcpClientManager::counts()

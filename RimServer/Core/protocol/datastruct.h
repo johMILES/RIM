@@ -18,6 +18,16 @@
 namespace Datastruct {
 
 /*!
+ *  @brief  系统通知消息的类型
+ *  @details 程序内部提供了系统级别的通知-订阅模式，此数据类型用于区分广播的类型。订阅者一句类型进行对应的处理。
+ */
+enum MessageType
+{
+    MESS_BASEINFO_READY,                 /*!< 基本信息可读 */
+    MESS_DATABASEINFO_READY              /*!< 数据库信息可读 */
+};
+
+/*!
  *  @brief 系统支持的服务类型
  *  @details 用户以命令行方式输入对应的服务.
  */
@@ -41,6 +51,7 @@ enum TransmissionMode
  */
 enum DatabaseType
 {
+    DB_NONE = 0,
     DB_MYSQL,               /*!< 使用MySql数据库*/
     DB_ORACLE               /*!< 使用Oracle数据库*/
 };
@@ -90,6 +101,44 @@ struct DBFeature
 {
     bool lastInsertId;          /*!< 是否支持查询最后插入数据的id */
     bool transactions;          /*!< 是否支持事务 */
+};
+
+/*!
+ *  @brief 配置文件参数
+ */
+struct SettingConfig
+{
+    SettingConfig()
+    {
+        textRecvProcCount = 5;
+        textSendProcCount = 5;
+        textListenPort = 8023;
+        fileListenPort = 8024;
+        textIp = "127.0.0.1";
+        fileIp = "127.0.0.1";
+    }
+    int textRecvProcCount;
+    int textSendProcCount;
+    ushort textListenPort;
+    ushort fileListenPort;
+
+    QString textIp;
+    QString fileIp;
+
+    QString uploadFilePath;
+};
+
+/*!
+ *  @brief 数据库配置信息
+ */
+struct DatabaseConfigInfo
+{
+    DatabaseType dbType;
+    QString hostName;
+    QString dbName;
+    QString dbUser;
+    QString dbPass;
+    ushort port;
 };
 
 } //namespace Datastruct

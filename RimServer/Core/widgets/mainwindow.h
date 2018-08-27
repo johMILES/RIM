@@ -17,6 +17,10 @@ namespace Ui {
 class MainWindow;
 }
 
+class BaseInfoDockPanel;
+class ConnectionPanel;
+class OperetePanel;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -26,7 +30,28 @@ public:
     ~MainWindow();
 
 private:
+    void initMenu();
+
+private slots:
+    void programExit();
+
+    void windowTopHint(bool flag);
+    void windowFullScreen(bool);
+    void routeTableEdit();
+    void seriportEditWindow();
+
+    void technicalSupport();
+    void aboutProgram();
+
+private:
+    void initComponent();
+
+private:
     Ui::MainWindow *ui;
+
+    BaseInfoDockPanel * baseInfoPanel;
+    ConnectionPanel * connectionPanel;
+    OperetePanel * operatePanel;
 };
 
 #endif // MAINWINDOW_H

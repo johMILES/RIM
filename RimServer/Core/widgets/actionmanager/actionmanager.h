@@ -14,34 +14,46 @@
 
 #include <QObject>
 #include <QMenu>
-#include <QAction>
 #include <QMap>
 #include <QKeySequence>
+#include <QMenuBar>
 #include "id.h"
 
 class QToolButton;
 class LoginDialog;
+class Action;
+class ActionContainer;
 
 class ActionManager : public QObject
 {
     Q_OBJECT
 public:
+    typedef QMap<Id,Action*> ActionMap;
+    typedef QMap<Id,ActionContainer*> ActionContainerMap;
+
     static ActionManager * instance();
     ~ActionManager();
 
-    QAction * createAction(Id id, QObject *reciver = NULL, const char * slot = NULL, bool isToggled = false);
-    QAction * action(Id id);
+    Action * registAction(Id id, QAction * newAction);
+    Action * action(Id id);
 
-    QMenu * createMenu(Id id);
-    QMenu * menu(Id id);
+    ActionContainer * createMenu(Id id);
+    ActionContainer * createMenuBar(Id id);
+
+    ActionContainer * actionContainer(Id id);
+
+    void releaseMenu(Id id);
+
+private slots:
+    void itemDestroyed();
 
 private:
     ActionManager(QObject * parent = 0);
 
     static ActionManager * actionManager;
 
-    QMap<Id,QAction *> actions;
-    QMap<Id,QMenu *> menus;
+    ActionMap actions;
+    ActionContainerMap menus;
 };
 
 #endif // TOOLACTIONMANAGER_H

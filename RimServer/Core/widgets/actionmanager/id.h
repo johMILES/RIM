@@ -25,6 +25,8 @@ public:
 
     const char * data();
 
+    bool isValid(){return str;}
+
     Id& operator= (const char * name);
     Id& operator= (const Id&);
 
@@ -41,7 +43,6 @@ public:
 
 private:
     char * str;
-
 };
 
 #endif // ID_H

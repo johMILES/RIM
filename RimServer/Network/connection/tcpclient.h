@@ -344,10 +344,29 @@ struct RecvFileTypeId
 
     unsigned short sourceAddr;     /*!< 源节点号 */
     unsigned short destAddr;       /*!< 目的节点号 */
-    unsigned short serialNo;      /*!< 流水号 */
-    QDB2051::FileType filetype;     /*!< 文件类型 */
+    unsigned short serialNo;       /*!< 流水号 */
+    QDB2051::FileType filetype;    /*!< 文件类型 */
 };
+
 #endif
+
+/*!
+ *  @brief 客户端连接基本信息
+ *  @details 用于数据监控时，周期性显示某个连接的状态信息
+ */
+struct NETWORKSHARED_EXPORT SimpleClientInfo
+{
+    SimpleClientInfo(){
+        cPort = 0;
+        recvBytes = sendBytes = recvPacks = 0;
+    }
+    QString ip;
+    ushort cPort;
+    ushort accountId;
+    qint64 recvBytes;
+    qint64 sendBytes;
+    qint64 recvPacks;
+};
 
 class NETWORKSHARED_EXPORT TcpClient
 {
@@ -360,7 +379,7 @@ public:
     QString ip() const {return QString(cIp);}
 
     void setPort(unsigned short cPort);
-    unsigned short port() const {return cPort;}
+    ushort port() const {return cPort;}
 
     QHash<int,PacketBuff*> & getPacketBuffs(){return packetBuffs;}
     QByteArray & getHalfPacketBuff(){return halfPackBufff;}
@@ -388,12 +407,17 @@ public:
     bool queryFiletype(RecvFileTypeId &fileId, QDB2051::FileType & pType);
 #endif
 
+public:
+    qint64 recvBytes;               /*!< 服务器向客户端发送字节数 */
+    qint64 sendBytes;               /*!< 服务器接收客户端发送的字节数 */
+    qint64 recvPacks;               /*!< 服务器接收包数 */
+
 private:
     explicit TcpClient();
     ~TcpClient();
 
     char cIp[32];
-    unsigned short cPort;
+    ushort cPort;
     int cSocket;
 
     /*!
@@ -406,9 +430,9 @@ private:
     std::mutex packIdMutex;
     int sendPackId;                                 /*!< 每次响应结果ID，可能被拆分成多个包，但每个子包的ID是一致的。 */
 
-    int onlineState;                   /*!< 在线状态(与OnlineStatus保持一致) */
-    QString accountId;                 /*!< 用户ID */
-    QString nickName;                  /*!< 用户昵称 */
+    int onlineState;                                /*!< 在线状态(与OnlineStatus保持一致) */
+    QString accountId;                              /*!< 用户ID */
+    QString nickName;                               /*!< 用户昵称 */
 
     QHash<QString,FileRecvDesc*> fileRecvList;      /*!< 文件接收缓冲列表 */
     std::mutex fileMutex;
@@ -423,11 +447,14 @@ private:
 
 typedef std::list<TcpClient*> ClientList;
 
-class NETWORKSHARED_EXPORT TcpClientManager
+class NETWORKSHARED_EXPORT TcpClientManager : public QObject
 {
+    Q_OBJECT
 public:
     TcpClientManager();
     static TcpClientManager * instance();
+
+    typedef std::vector<SimpleClientInfo> ClientInfoList;
 
     void addClient(TcpClient * client);
 
@@ -440,7 +467,12 @@ public:
     ClientList   getClients();
     TcpClient *  addClient(int sockId, char* ip, unsigned short port);
 
+    ClientInfoList getAnchorPoint();
+
     int counts();
+
+signals:
+    void clientChanged();
 
 private:
     static TcpClientManager * manager;

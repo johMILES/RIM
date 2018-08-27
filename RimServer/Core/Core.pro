@@ -81,9 +81,25 @@ SOURCES += main.cpp\
     config/routetableclientdelegate.cpp \
     config/routetablehead.cpp \
     config/routesettings.cpp \
-    actionmanager/actionmanager.cpp \
-    actionmanager/id.cpp \
-    mainwindow.cpp
+    widgets/actionmanager/actionmanager.cpp \
+    widgets/actionmanager/id.cpp \
+    widgets/actionmanager/actioncontainer.cpp \
+    widgets/actionmanager/command.cpp \
+    widgets/actionmanager/action.cpp \
+    widgets/mainwindow.cpp \
+    widgets/baseinfomodule/baseinfodockpanel.cpp \
+    widgets/connectionmodule/connectiondockpanel.cpp \
+    widgets/operatemodule/operetepanel.cpp \
+    widgets/rcomponent.cpp \
+    widgets/pluginmanager/pluginmanager.cpp \
+    widgets/baseinfomodule/baseinfowidget.cpp \
+    widgets/connectionmodule/connectionwidget.cpp \
+    widgets/operatemodule/operatewidget.cpp \
+    widgets/pluginmanager/observer.cpp \
+    widgets/pluginmanager/subject.cpp \
+    widgets/connectionmodule/mode/connectionmonitormodel.cpp \
+    widgets/baseinfomodule/baseinfoedit.cpp \
+    widgets/baseinfomodule/databaseedit.cpp
 
 HEADERS  += \
     rsingleton.h \
@@ -128,13 +144,35 @@ HEADERS  += \
     config/routetableclientdelegate.h \
     config/routetablehead.h \
     config/routesettings.h \
-    actionmanager/actionmanager.h \
-    actionmanager/id.h \
-    mainwindow.h
+    widgets/actionmanager/actionmanager.h \
+    widgets/actionmanager/id.h \
+    widgets/actionmanager/actioncontainer.h \
+    widgets/actionmanager/command.h \
+    widgets/actionmanager/action.h \
+    widgets/mainwindow.h \
+    widgets/baseinfomodule/baseinfodockpanel.h \
+    widgets/connectionmodule/connectiondockpanel.h \
+    widgets/operatemodule/operetepanel.h \
+    widgets/rcomponent.h \
+    widgets/pluginmanager/pluginmanager.h \
+    widgets/baseinfomodule/baseinfowidget.h \
+    widgets/connectionmodule/connectionwidget.h \
+    widgets/operatemodule/operatewidget.h \
+    widgets/pluginmanager/observer.h \
+    widgets/pluginmanager/subject.h \
+    widgets/connectionmodule/mode/connectionmonitormodel.h \
+    widgets/baseinfomodule/baseinfoedit.h \
+    widgets/baseinfomodule/databaseedit.h \
+    widgets/baseinfomodule/baseinfoconstant.h
 
 FORMS    += \
     config/routetable.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    widgets/baseinfomodule/baseinfowidget.ui \
+    widgets/connectionmodule/connectionwidget.ui \
+    widgets/operatemodule/operatewidget.ui \
+    widgets/baseinfomodule/baseinfoedit.ui \
+    widgets/baseinfomodule/databaseedit.ui
 
 win32-msvc2013{
     LIBS += ../Lib/Util.lib
@@ -152,3 +190,6 @@ unix{
 
 INCLUDEPATH += $$PWD/../
 INCLUDEPATH += $$PWD/../../RimClient/
+
+RESOURCES += \
+    res.qrc

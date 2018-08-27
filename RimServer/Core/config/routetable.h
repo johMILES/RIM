@@ -38,12 +38,12 @@ private:
 private slots:
     void switchServerIndex(QModelIndex index);
 
-    void addNewServerGroup(bool);
-    void deleteServerGroup(bool);
+    void addNewServerGroup();
+    void deleteServerGroup();
 
-    void addNewClientGroup(bool);
-    void moveClientGroup(bool);
-    void deleteClientGroup(bool);
+    void addNewClientGroup();
+    void moveClientGroup();
+    void deleteClientGroup();
 
     void saveFile();
     void cancelSave();

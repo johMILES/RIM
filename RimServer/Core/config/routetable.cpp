@@ -19,7 +19,10 @@
 #include "routetableserverdelegate.h"
 #include "routesettings.h"
 #include "../global.h"
-#include "../actionmanager/actionmanager.h"
+#include "../widgets/actionmanager/command.h"
+#include "../widgets/actionmanager/actioncontainer.h"
+#include "../widgets/actionmanager/actionmanager.h"
+#include "../widgets/actionmanager/action.h"
 #include "Util/rsingleton.h"
 #include "../constants.h"
 #include "routetablehead.h"
@@ -48,6 +51,10 @@ RouteTable::~RouteTable()
 {
     if(currRouteSettings)
         delete currRouteSettings;
+
+    ActionManager::instance()->releaseMenu(Constant::MENU_ROUTE_TABLE_SERVER);
+    ActionManager::instance()->releaseMenu(Constant::MENU_ROUTE_TABLE_CLIENT);
+
     delete ui;
 }
 
@@ -119,23 +126,40 @@ void RouteTable::initView()
 
 void RouteTable::initContextMenu()
 {
-    QMenu * serverMenu = ActionManager::instance()->createMenu(Constant::MENU_ROUTE_TABLE_SERVER);
-    QAction * serverNew = ActionManager::instance()->createAction(Constant::ACTION_ROUTE_SERVER_NEW,this,SLOT(addNewServerGroup(bool)));
-    serverNew->setText(tr("New"));
-    QAction * serverDelete = ActionManager::instance()->createAction(Constant::ACTION_ROUTE_SERVER_DELETE,this,SLOT(deleteServerGroup(bool)));
-    serverDelete->setText(tr("Delete"));
-    serverMenu->addAction(serverNew);
-    serverMenu->addAction(serverDelete);
+    ActionContainer * serverMenu = ActionManager::instance()->createMenu(Constant::MENU_ROUTE_TABLE_SERVER);
+    serverMenu->appendGroup(Constant::MENU_ROUTE_TABLE_SERVER);
 
-    QMenu * clientMenu = ActionManager::instance()->createMenu(Constant::MENU_ROUTE_TABLE_CLIENT);
-    QAction * clientNew = ActionManager::instance()->createAction(Constant::ACTION_ROUTE_CLIENT_NEW,this,SLOT(addNewClientGroup(bool)));
-    clientNew->setText(tr("New"));
-    QAction * clientMove = ActionManager::instance()->createAction(Constant::ACTION_ROUTE_CLIENT_MOVE,this,SLOT(moveClientGroup(bool)));
-    clientMove->setText(tr("Move"));
-    QAction * clientDelete = ActionManager::instance()->createAction(Constant::ACTION_ROUTE_CLIENT_DELETE,this,SLOT(deleteClientGroup(bool)));
-    clientDelete->setText(tr("Delete"));
-    clientMenu->addAction(clientNew);
-    clientMenu->addAction(clientDelete);
+    QAction * serverNewAction = new QAction(this);
+    serverNewAction->setText(tr("New"));
+    connect(serverNewAction,SIGNAL(triggered()),this,SLOT(addNewServerGroup()));
+    Action * serverNew = ActionManager::instance()->registAction(Constant::ACTION_ROUTE_SERVER_NEW,serverNewAction);
+
+    QAction * serverDeleteAction = new QAction(this);
+    serverDeleteAction->setText(tr("Delete"));
+    connect(serverDeleteAction,SIGNAL(triggered()),this,SLOT(deleteServerGroup()));
+    Action * serverDelete = ActionManager::instance()->registAction(Constant::ACTION_ROUTE_SERVER_DELETE,serverDeleteAction);
+
+    serverMenu->addAction(serverNew,Constant::MENU_ROUTE_TABLE_SERVER);
+    serverMenu->addAction(serverDelete,Constant::MENU_ROUTE_TABLE_SERVER);
+
+    ActionContainer * clientMenu = ActionManager::instance()->createMenu(Constant::MENU_ROUTE_TABLE_CLIENT);
+    clientMenu->appendGroup(Constant::MENU_ROUTE_TABLE_CLIENT);
+
+    QAction * clientNewAction = new QAction(this);
+    clientNewAction->setText(tr("New"));
+    Action * clientNew = ActionManager::instance()->registAction(Constant::ACTION_ROUTE_CLIENT_NEW,clientNewAction);
+
+    QAction * clientMoveAction = new QAction(this);
+    clientMoveAction->setText(tr("Move"));
+    Action * clientMove = ActionManager::instance()->registAction(Constant::ACTION_ROUTE_CLIENT_MOVE,clientMoveAction);
+
+    QAction * clientDeleteAction = new QAction(this);
+    clientDeleteAction->setText(tr("Delete"));
+    Action * clientDelete = ActionManager::instance()->registAction(Constant::ACTION_ROUTE_CLIENT_DELETE,clientDeleteAction);
+
+    clientMenu->addAction(clientNew,Constant::MENU_ROUTE_TABLE_CLIENT);
+    clientMenu->addAction(clientMove,Constant::MENU_ROUTE_TABLE_CLIENT);
+    clientMenu->addAction(clientDelete,Constant::MENU_ROUTE_TABLE_CLIENT);
 }
 
 void RouteTable::switchServerIndex(QModelIndex index)
@@ -149,7 +173,7 @@ void RouteTable::switchServerIndex(QModelIndex index)
 /*!
  * @brief  服务器端添加新的分组
  */
-void RouteTable::addNewServerGroup(bool)
+void RouteTable::addNewServerGroup()
 {
 
 }
@@ -157,7 +181,7 @@ void RouteTable::addNewServerGroup(bool)
 /*!
  * @brief  服务器端添删除分组
  */
-void RouteTable::deleteServerGroup(bool)
+void RouteTable::deleteServerGroup()
 {
 
 }
@@ -165,7 +189,7 @@ void RouteTable::deleteServerGroup(bool)
 /*!
  * @brief  客户端添加分组
  */
-void RouteTable::addNewClientGroup(bool)
+void RouteTable::addNewClientGroup()
 {
 
 }
@@ -173,7 +197,7 @@ void RouteTable::addNewClientGroup(bool)
 /*!
  * @brief  移动客户端分组至其它服务器节点
  */
-void RouteTable::moveClientGroup(bool)
+void RouteTable::moveClientGroup()
 {
 
 }
@@ -181,7 +205,7 @@ void RouteTable::moveClientGroup(bool)
 /*!
  * @brief  客户端删除分组
  */
-void RouteTable::deleteClientGroup(bool)
+void RouteTable::deleteClientGroup()
 {
 
 }

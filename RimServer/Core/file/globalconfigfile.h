@@ -14,6 +14,7 @@
 #include <QSettings>
 
 #include "Util/rlog.h"
+#include "../protocol/datastruct.h"
 
 class GlobalConfigFile
 {
@@ -26,6 +27,8 @@ public:
 
 public:
     RLog::LogConfig logConfig;
+    Datastruct::SettingConfig netSettingConfig;
+    Datastruct::DatabaseConfigInfo databaseConfig;
 
 private:
     QVariant getGlobalValue(const QString & group,const QString &key, const QVariant & defaultValue);

@@ -1,4 +1,4 @@
-﻿#include "mainwindow.h"
+﻿#include "widgets/mainwindow.h"
 #include <QApplication>
 
 #include <iostream>
@@ -44,33 +44,6 @@ using namespace ServerNetwork;
 
 #include <Dbghelp.h>
 #pragma comment( lib, "DbgHelp")
-
-/*!
- *  @brief 配置文件参数
- */
-struct SettingConfig
-{
-    SettingConfig()
-    {
-        textRecvProcCount = 5;
-        textSendProcCount = 5;
-        textListenPort = 8023;
-        fileListenPort = 8024;
-        textIp = "127.0.0.1";
-        fileIp = "127.0.0.1";
-
-        uploadFilePath = qApp->applicationDirPath() + Constant::PATH_File;
-    }
-    int textRecvProcCount;
-    int textSendProcCount;
-    unsigned short textListenPort;
-    unsigned short fileListenPort;
-
-    QString textIp;
-    QString fileIp;
-
-    QString uploadFilePath;
-};
 
 inline void CreateMiniDump(PEXCEPTION_POINTERS pep, LPCTSTR strFileName)
 {
@@ -219,80 +192,6 @@ void parseCommandLine(QApplication & app,CommandParameter & result)
     result.parseResult = EXEC_PROGRAM;
 }
 
-void readSettings(QSettings * settings,SettingConfig & localConfig)
-{
-    //[1]网络配置
-    settings->beginGroup(Constant::GroupNetwork);
-
-    if(!settings->contains(Constant::DB_THREAD))
-    {
-        settings->setValue(Constant::DB_THREAD,localConfig.textRecvProcCount);
-    }
-
-    localConfig.textRecvProcCount = settings->value(Constant::DB_THREAD,localConfig.textRecvProcCount).toInt();
-
-    if(!settings->contains(Constant::MSG_THREAD))
-    {
-        settings->setValue(Constant::MSG_THREAD,localConfig.textSendProcCount);
-    }
-
-    localConfig.textSendProcCount = settings->value(Constant::MSG_THREAD,localConfig.textSendProcCount).toInt();
-
-    if(!settings->contains(Constant::TEXT_PORT))
-    {
-        settings->setValue(Constant::TEXT_PORT,localConfig.textListenPort);
-    }
-
-    localConfig.textListenPort = settings->value(Constant::TEXT_PORT,localConfig.textListenPort).toInt();
-
-    if(!settings->contains(Constant::FILE_PORT))
-    {
-        settings->setValue(Constant::FILE_PORT,localConfig.fileListenPort);
-    }
-
-    localConfig.fileListenPort = settings->value(Constant::FILE_PORT,localConfig.fileListenPort).toInt();
-
-    if(!settings->contains(Constant::TEXT_IP))
-    {
-        settings->setValue(Constant::TEXT_IP,localConfig.textIp);
-    }
-
-    localConfig.textIp = settings->value(Constant::TEXT_IP,localConfig.textIp).toString();
-
-    if(!settings->contains(Constant::FILE_IP))
-    {
-        settings->setValue(Constant::FILE_IP,localConfig.fileIp);
-    }
-
-    localConfig.fileIp = settings->value(Constant::FILE_IP,localConfig.fileIp).toString();
-
-    settings->endGroup();
-
-    //[2]文件服务器配置
-    settings->beginGroup(Constant::FileServerSetting);
-
-    if(!settings->contains(Constant::UPLOAD_FILE_PATH))
-    {
-        settings->setValue(Constant::UPLOAD_FILE_PATH,localConfig.uploadFilePath);
-    }
-
-    localConfig.uploadFilePath = settings->value(Constant::UPLOAD_FILE_PATH,localConfig.uploadFilePath).toString();
-
-    settings->endGroup();
-
-    //[3]服务器广播发送
-    settings->beginGroup(Constant::TRANS_SETTING);
-    if(!settings->contains(Constant::BROADCAST_DEST_NODE))
-    {
-        settings->setValue(Constant::BROADCAST_DEST_NODE,RSingleton<BroadcastNode>::instance()->getDefaultNode());
-    }
-
-    RSingleton<BroadcastNode>::instance()->parseData(settings->value(Constant::BROADCAST_DEST_NODE).toString());
-    settings->endGroup();
-
-    settings->sync();
-}
-
 void printProgramInfo(CommandParameter & result,QString ip,unsigned short port)
 {
     QString serviceType;
@@ -370,8 +269,6 @@ int main(int argc, char *argv[])
 #if QT_VERSION > 0x050000
     QTextCodec * codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
-#else
-
 #endif
 
     if(commandResult.parseResult == PARSE_ERROR)
@@ -391,6 +288,7 @@ int main(int argc, char *argv[])
         QSettings * settings = new QSettings(configFullPath+"/config.ini",QSettings::IniFormat);
         RUtil::setGlobalSettings(settings);
 
+        //初始化配置文件解析
         RGlobal::G_GlobalConfigFile = new GlobalConfigFile;
         RGlobal::G_GlobalConfigFile->setSettings(settings);
         if(!RGlobal::G_GlobalConfigFile->parseFile()){
@@ -402,9 +300,9 @@ int main(int argc, char *argv[])
         {
             QMessageBox::warning(NULL,QObject::tr("Warning"),QObject::tr("Log module initialization failure!"),QMessageBox::Yes,QMessageBox::Yes);
         }
+        RGlobal::G_GlobalConfigFile->netSettingConfig.uploadFilePath = qApp->applicationDirPath() + Constant::PATH_File;
 
-        SettingConfig settingConfig;
-        readSettings(settings,settingConfig);
+        Datastruct::SettingConfig localConfig = RGlobal::G_GlobalConfigFile->netSettingConfig;
 
 #ifdef __LOCAL_CONTACT__
         RGlobal::G_RouteSettings = new ParameterSettings::RouteSettings;
@@ -416,7 +314,7 @@ int main(int argc, char *argv[])
             exit(-1);
         }
 #endif
-
+        //语言
         QTranslator translator;
 
         QString translationPath = configFullPath + QString(Constant::CONFIG_LocalePath);
@@ -444,22 +342,30 @@ int main(int argc, char *argv[])
             }
         }
 
+        //样式
+        QFile blackStyleFile(":/resource/style/Black.qss");
+        if(!blackStyleFile.open(QFile::ReadOnly)){
+            RLOG_ERROR("style file read error!");
+            return -1;
+        }
+        a.setStyleSheet(blackStyleFile.readAll());
+
         RGlobal::G_SERVICE_TYPE = commandResult.serviceType;
 
 #ifndef __LOCAL_CONTACT__
         if(RGlobal::G_SERVICE_TYPE == SERVICE_FILE)
 #endif
         {
-            QDir fileDir(settingConfig.uploadFilePath);
-            if(!fileDir.mkpath(settingConfig.uploadFilePath))
+            QDir fileDir(localConfig.uploadFilePath);
+            if(!fileDir.mkpath(localConfig.uploadFilePath))
             {
-                RLOG_ERROR("create file path error ! %s",settingConfig.uploadFilePath.toLocal8Bit().data());
+                RLOG_ERROR("create file path error ! %s",localConfig.uploadFilePath.toLocal8Bit().data());
                 return -1;
             }
         }
-        RGlobal::G_FILE_UPLOAD_PATH = settingConfig.uploadFilePath;
+        RGlobal::G_FILE_UPLOAD_PATH = localConfig.uploadFilePath;
 
-        RSingleton<DatabaseManager>::instance()->setConnectInfo("localhost","rimserver","root","rengu123456");
+        RSingleton<DatabaseManager>::instance()->setConnectInfo(RGlobal::G_GlobalConfigFile->databaseConfig);
         RSingleton<DatabaseManager>::instance()->setDatabaseType(commandResult.dbType);
 
         memset((char *)&RGlobal::G_DB_FEATURE,0,sizeof(Datastruct::DBFeature));
@@ -475,19 +381,19 @@ int main(int argc, char *argv[])
         //【1】启动文件传输服务器
         if(commandResult.serviceType == SERVICE_TEXT)
         {
-            printProgramInfo(commandResult,settingConfig.textIp,settingConfig.textListenPort);
+            printProgramInfo(commandResult,localConfig.textIp,localConfig.textListenPort);
             AbstractServer * tcpTextServer = new TcpServer();
-            tcpTextServer->startMe(settingConfig.textIp.toLocal8Bit().data(),settingConfig.textListenPort);
+            tcpTextServer->startMe(localConfig.textIp.toLocal8Bit().data(),localConfig.textListenPort);
         }
         else if(commandResult.serviceType == SERVICE_FILE)
         {
-            printProgramInfo(commandResult,settingConfig.fileIp,settingConfig.fileListenPort);
+            printProgramInfo(commandResult,localConfig.fileIp,localConfig.fileListenPort);
             AbstractServer * fileServer = new TcpServer();
-            fileServer->startMe(settingConfig.fileIp.toLocal8Bit().data(),settingConfig.fileListenPort);
+            fileServer->startMe(localConfig.fileIp.toLocal8Bit().data(),localConfig.fileListenPort);
         }
 
         //【2】启动文本接收处理线程
-        for(int i = 0; i < settingConfig.textRecvProcCount;i++)
+        for(int i = 0; i < localConfig.textRecvProcCount;i++)
         {
             RecvTextProcessThread * thread = new RecvTextProcessThread;
             Database * dbs = RSingleton<DatabaseManager>::instance()->newDatabase();
@@ -506,14 +412,14 @@ int main(int argc, char *argv[])
         //【3】启动文本发送处理线程
         if(commandResult.serviceType == SERVICE_TEXT)
         {
-            startTextSendThread(settingConfig);
+            startTextSendThread(localConfig);
 #ifdef __LOCAL_CONTACT__
-            startFileSendThread(settingConfig);
+            startFileSendThread(localConfig);
 #endif
         }
         else if(commandResult.serviceType == SERVICE_FILE)
         {
-            startFileSendThread(settingConfig);
+            startFileSendThread(localConfig);
         }
 
         MainWindow widget;
