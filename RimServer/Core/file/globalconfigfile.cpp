@@ -6,6 +6,8 @@
 #include "../broadcastnode.h"
 #include "../sql/databasemanager.h"
 
+#include <QDebug>
+
 GlobalConfigFile::GlobalConfigFile():settings(nullptr)
 {
     databaseConfig.dbType = Datastruct::DB_MYSQL;
@@ -14,6 +16,56 @@ GlobalConfigFile::GlobalConfigFile():settings(nullptr)
     databaseConfig.dbUser = "root";
     databaseConfig.dbPass = "rengu123456";
     databaseConfig.port = 3306;
+}
+
+/*!
+ * @brief 保存网络配置信息
+ * @param[in]  config 待保存网络配置信息
+ */
+bool GlobalConfigFile::saveSettingConfig(Datastruct::SettingConfig &config)
+{
+    if(settings == nullptr)
+        return false;
+
+    settings->beginGroup(Constant::GroupNetwork);
+    settings->setValue(Constant::TEXT_PORT,config.textListenPort);
+    settings->setValue(Constant::TEXT_IP,config.textIp);
+    settings->endGroup();
+
+    return true;
+}
+
+/*!
+ * @brief 保存文件服务器配置信息
+ * @param[in]  config 待保存文件服务器配置信息
+ */
+bool GlobalConfigFile::saveFileServerConfig(Datastruct::FileServerSetting &config)
+{
+    if(settings == nullptr)
+        return false;
+
+    settings->beginGroup(Constant::FileServerSetting);
+    settings->setValue(Constant::UPLOAD_FILE_PATH,config.fileRecvPath);
+    settings->endGroup();
+
+    return true;
+}
+
+bool GlobalConfigFile::saveDatabaseConfig(Datastruct::DatabaseConfigInfo &config)
+{
+    if(settings == nullptr)
+        return false;
+
+    settings->beginGroup(Constant::DB_SETTING);
+    settings->setValue(Constant::DB_TYPE,config.dbType);
+    settings->setValue(Constant::DB_HOST,config.hostName);
+    settings->setValue(Constant::DB_DATABASE_NAME,config.dbName);
+    settings->setValue(Constant::DB_USERNAME,config.dbUser);
+    settings->setValue(Constant::DB_PASSWORD,config.dbPass);
+    settings->setValue(Constant::DB_PORT,config.port);
+    settings->endGroup();
+
+    return true;
 }
 
 bool GlobalConfigFile::parseFile()
@@ -34,7 +86,7 @@ bool GlobalConfigFile::parseFile()
     netSettingConfig.fileIp = RUtil::getGlobalValue(Constant::GroupNetwork,Constant::FILE_IP,"127.0.0.1").toString();
 
     //文件服务器配置
-    netSettingConfig.uploadFilePath = RUtil::getGlobalValue(Constant::GroupNetwork,Constant::FILE_IP,"./").toString();
+    fileServerSetting.fileRecvPath = RUtil::getGlobalValue(Constant::FileServerSetting,Constant::UPLOAD_FILE_PATH,"./").toString();
 
     //服务器发送
     QString defaultBraodCastNode = RSingleton<BroadcastNode>::instance()->getDefaultNode();

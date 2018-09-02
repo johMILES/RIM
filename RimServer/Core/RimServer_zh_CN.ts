@@ -22,40 +22,83 @@
         <translation>基本信息</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="100"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="90"/>
         <source>Listen port:</source>
         <translation>监听端口号：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="138"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="128"/>
         <source>File save path:</source>
         <translation>文件接收路径:</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="160"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="150"/>
         <source>Listen ip:</source>
         <translation>监听ip：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="196"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="186"/>
         <source>Choose floder</source>
         <translation>选择目录</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="237"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="230"/>
         <source>Cancel</source>
         <translation>取 消</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="244"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="237"/>
         <source>Confirm</source>
         <oldsource>Confrim</oldsource>
         <translation>确 认</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="14"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="27"/>
         <source>Baseinfo Setting</source>
         <translation>基本信息设置</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="78"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="84"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="89"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="119"/>
+        <source>warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="78"/>
+        <source>Please select ip!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="84"/>
+        <source>Port doesn&apos;t valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="89"/>
+        <source>File path doesn&apos;t exist!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="114"/>
+        <source>information</source>
+        <translation type="unfinished">提示</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="114"/>
+        <source>Save successfully! Modifications will take effect after reboot.</source>
+        <translation type="unfinished">保存成功! 修改将在重启后生效.</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="119"/>
+        <source>Save failed!</source>
+        <translation type="unfinished">保存失败!</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="124"/>
+        <source>Choose save file path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -121,12 +164,12 @@
         <translation>主机地址：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfowidget.cpp" line="40"/>
+        <location filename="widgets/baseinfomodule/baseinfowidget.cpp" line="41"/>
         <source>Baseinfo setting</source>
         <translation>基本信息设置</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfowidget.cpp" line="46"/>
+        <location filename="widgets/baseinfomodule/baseinfowidget.cpp" line="47"/>
         <source>Database info setting</source>
         <translation>数据库设置</translation>
     </message>
@@ -167,7 +210,7 @@
 <context>
     <name>ConnectionPanel</name>
     <message>
-        <location filename="widgets/connectionmodule/connectiondockpanel.cpp" line="9"/>
+        <location filename="widgets/connectionmodule/connectiondockpanel.cpp" line="12"/>
         <source>Connection panel</source>
         <translation>连接信息面板</translation>
     </message>
@@ -203,55 +246,125 @@
         <translation>数据库信息</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="125"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="118"/>
         <source>Database type：</source>
         <translation>数据库类型:</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="163"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="156"/>
         <source>Port：</source>
         <translation>端口号：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="185"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="178"/>
         <source>Database name：</source>
         <translation>数据库名：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="207"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="200"/>
         <source>Password：</source>
         <translation>密码：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="229"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="222"/>
         <source>User name：</source>
         <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="251"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="244"/>
         <source>Host name：</source>
         <translation>主机地址：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="289"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="282"/>
         <source>Test connection</source>
         <translation>测试连接</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="330"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="326"/>
         <source>Cancel</source>
         <translation>取 消</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="337"/>
+        <location filename="widgets/baseinfomodule/databaseedit.ui" line="333"/>
         <source>Confirm</source>
         <oldsource>Confrim</oldsource>
         <translation type="unfinished">确 认</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="14"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="24"/>
         <source>Database info Setting</source>
         <translation>数据库设置</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="50"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="68"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="70"/>
+        <source>information</source>
+        <translation type="unfinished">提示</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="50"/>
+        <source>Save successfully! Modifications will take effect after reboot.</source>
+        <translation type="unfinished">保存成功! 修改将在重启后生效.</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="55"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="106"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="116"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="121"/>
+        <source>warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="55"/>
+        <source>Save failed!</source>
+        <translation type="unfinished">保存失败!</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="68"/>
+        <source>Connect database successfully!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="70"/>
+        <source>Connect database failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="92"/>
+        <source>Host name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="95"/>
+        <source>Database name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="98"/>
+        <source>User name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="101"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="106"/>
+        <source>Port doesn&apos;t valid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="116"/>
+        <source>%1 content is empty!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="121"/>
+        <source>%1 content contains space!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -322,6 +435,98 @@
     </message>
 </context>
 <context>
+    <name>NewClientNode</name>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="107"/>
+        <source>New client node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="140"/>
+        <source>warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="140"/>
+        <source>Input invalid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewClientNodePrivate</name>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="47"/>
+        <source>Node id</source>
+        <translation type="unfinished">节点号</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="53"/>
+        <source>Communication method</source>
+        <translation type="unfinished">通信方式</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="59"/>
+        <source>Message format</source>
+        <translation type="unfinished">报文格式</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="67"/>
+        <source>Channel</source>
+        <translation type="unfinished">通道</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newclientnode.cpp" line="75"/>
+        <source>Distribute message type</source>
+        <translation type="unfinished">下发报文类别</translation>
+    </message>
+</context>
+<context>
+    <name>NewServerNode</name>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="107"/>
+        <source>New server node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="134"/>
+        <source>warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="134"/>
+        <source>Input invalid!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NewServerNodePrivate</name>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="49"/>
+        <source>Node id</source>
+        <translation type="unfinished">节点号</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="55"/>
+        <source>Ip address</source>
+        <translation type="unfinished">Ip地址</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="61"/>
+        <source>Port</source>
+        <translation type="unfinished">端口号</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="67"/>
+        <source>Method</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/newservernode.cpp" line="75"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OperateWidget</name>
     <message>
         <location filename="widgets/operatemodule/operatewidget.ui" line="14"/>
@@ -357,7 +562,7 @@
     <message>
         <location filename="main.cpp" line="295"/>
         <location filename="main.cpp" line="301"/>
-        <location filename="main.cpp" line="312"/>
+        <location filename="main.cpp" line="311"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
@@ -372,17 +577,17 @@
         <translation>日志模块初始化失败!</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="312"/>
+        <location filename="main.cpp" line="311"/>
         <source>Route settings read failed,system exit!</source>
         <translation>路由表读取失败，系统退出!</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="377"/>
+        <location filename="main.cpp" line="376"/>
         <source>warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="377"/>
+        <location filename="main.cpp" line="376"/>
         <source>Current database don&apos;t support transactions</source>
         <translation>当前数据库不支持事务</translation>
     </message>
@@ -390,85 +595,92 @@
 <context>
     <name>RouteTable</name>
     <message>
-        <location filename="config/routetable.ui" line="14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="config/routetable.ui" line="90"/>
-        <location filename="config/routetable.cpp" line="123"/>
         <source>Cancel</source>
-        <translation>取 消</translation>
+        <translation type="vanished">取 消</translation>
     </message>
     <message>
-        <location filename="config/routetable.ui" line="103"/>
         <source>Confirm</source>
-        <translation>确 认</translation>
+        <translation type="vanished">确 认</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="37"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="134"/>
         <source>Route table</source>
         <translation>路由表</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="70"/>
         <source>Server node:</source>
-        <translation>服务器节点:</translation>
+        <translation type="vanished">服务器节点:</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="94"/>
         <source>Client node:</source>
-        <translation>客户端节点:</translation>
+        <translation type="vanished">客户端节点:</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="124"/>
         <source>Save</source>
-        <translation>保 存</translation>
+        <translation type="vanished">保 存</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="133"/>
-        <location filename="config/routetable.cpp" line="149"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="174"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="190"/>
         <source>New</source>
         <translation>新 建</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="138"/>
-        <location filename="config/routetable.cpp" line="157"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="179"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="200"/>
         <source>Delete</source>
         <translation>删 除</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="153"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="195"/>
         <source>Move</source>
         <translation>移 动</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="220"/>
-        <location filename="config/routetable.cpp" line="222"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="247"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="304"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="323"/>
+        <source>warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="247"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="323"/>
+        <source>Please choose a server node!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="280"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="282"/>
         <source>information</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="220"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="280"/>
         <source>Save successfully! Modifications will take effect after reboot.</source>
         <translation>保存成功! 修改将在重启后生效.</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="304"/>
+        <source>Server node has existed!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save successfully!</source>
         <translation type="vanished">保存成功!</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="222"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="282"/>
         <source>Save failed!</source>
         <translation>保存失败!</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="228"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="288"/>
         <source>inforamtion</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="config/routetable.cpp" line="228"/>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="288"/>
         <source>This action will discard the modification,Whether to continue!</source>
         <translation>当前操作将放弃修改,是否继续?</translation>
     </message>
@@ -476,45 +688,58 @@
 <context>
     <name>RouteTableClientModel</name>
     <message>
-        <location filename="config/routetableclientmodel.cpp" line="131"/>
+        <location filename="widgets/routetablemodule/routetableclientmodel.cpp" line="131"/>
         <source>Node id</source>
         <translation>节点号</translation>
     </message>
     <message>
-        <location filename="config/routetableclientmodel.cpp" line="134"/>
+        <location filename="widgets/routetablemodule/routetableclientmodel.cpp" line="134"/>
         <source>Communication method</source>
         <translation>通信方式</translation>
     </message>
     <message>
-        <location filename="config/routetableclientmodel.cpp" line="137"/>
+        <location filename="widgets/routetablemodule/routetableclientmodel.cpp" line="137"/>
         <source>Message format</source>
         <translation>报文格式</translation>
     </message>
     <message>
-        <location filename="config/routetableclientmodel.cpp" line="140"/>
+        <location filename="widgets/routetablemodule/routetableclientmodel.cpp" line="140"/>
         <source>Channel</source>
         <translation>通道</translation>
     </message>
     <message>
-        <location filename="config/routetableclientmodel.cpp" line="143"/>
+        <location filename="widgets/routetablemodule/routetableclientmodel.cpp" line="143"/>
         <source>Distribute message type</source>
         <translation>下发报文类别</translation>
     </message>
 </context>
 <context>
+    <name>RouteTablePrivate</name>
+    <message>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="71"/>
+        <source>Server node:</source>
+        <translation type="unfinished">服务器节点:</translation>
+    </message>
+    <message>
+        <location filename="widgets/routetablemodule/routetable.cpp" line="95"/>
+        <source>Client node:</source>
+        <translation type="unfinished">客户端节点:</translation>
+    </message>
+</context>
+<context>
     <name>RouteTableServerModel</name>
     <message>
-        <location filename="config/routetableservermodel.cpp" line="119"/>
+        <location filename="widgets/routetablemodule/routetableservermodel.cpp" line="119"/>
         <source>Node id</source>
         <translation>节点号</translation>
     </message>
     <message>
-        <location filename="config/routetableservermodel.cpp" line="122"/>
+        <location filename="widgets/routetablemodule/routetableservermodel.cpp" line="122"/>
         <source>Ip address</source>
         <translation>Ip地址</translation>
     </message>
     <message>
-        <location filename="config/routetableservermodel.cpp" line="125"/>
+        <location filename="widgets/routetablemodule/routetableservermodel.cpp" line="125"/>
         <source>Port</source>
         <translation>端口号</translation>
     </message>

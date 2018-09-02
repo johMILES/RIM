@@ -11,7 +11,7 @@
 #ifndef BASEINFODOCKWINDOW_H
 #define BASEINFODOCKWINDOW_H
 
-#include "../rcomponent.h"
+#include "Base/rcomponent.h"
 
 class BaseInfoWidget;
 
@@ -25,7 +25,7 @@ public:
     bool initialize();
     void release();
 
-    void onMessage(Datastruct::MessageType type);
+    void onMessage(MessageType::MessageType type);
 
     QSize sizeHint()const;
 

@@ -4,13 +4,13 @@
 #include <QAction>
 #include <QDebug>
 
-#include "actionmanager/actioncontainer.h"
-#include "actionmanager/actionmanager.h"
-#include "actionmanager/action.h"
+#include "Base/actionmanager/actioncontainer.h"
+#include "Base/actionmanager/actionmanager.h"
+#include "Base/actionmanager/action.h"
 #include "constants.h"
-#include "../config/routetable.h"
+#include "routetablemodule/routetable.h"
 #include "Util/rsingleton.h"
-#include "pluginmanager/pluginmanager.h"
+#include "Base/pluginmanager/pluginmanager.h"
 
 #include "baseinfomodule/baseinfodockpanel.h"
 #include "connectionmodule/connectiondockpanel.h"

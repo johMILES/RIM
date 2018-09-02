@@ -2,15 +2,16 @@
 #include "ui_baseinfowidget.h"
 
 #include <QAction>
+#include <QDir>
 
 #include "../../protocol/datastruct.h"
 #include "../../file/globalconfigfile.h"
 #include "../../global.h"
 #include "../../sql/databasemanager.h"
 
-#include "../actionmanager/action.h"
-#include "../actionmanager/actioncontainer.h"
-#include "../actionmanager/actionmanager.h"
+#include "Base/actionmanager/action.h"
+#include "Base/actionmanager/actioncontainer.h"
+#include "Base/actionmanager/actionmanager.h"
 #include "../../constants.h"
 
 #include "baseinfoedit.h"
@@ -54,7 +55,7 @@ void BaseInfoWidget::updateBaseInfo()
 {
     ui->listenIp->setText(RGlobal::G_GlobalConfigFile->netSettingConfig.textIp);
     ui->listenPort->setText(QString::number(RGlobal::G_GlobalConfigFile->netSettingConfig.textListenPort));
-    ui->fileRecvSavePath->setText(RGlobal::G_GlobalConfigFile->netSettingConfig.uploadFilePath);
+    ui->fileRecvSavePath->setText(RGlobal::G_GlobalConfigFile->fileServerSetting.fileRecvPath);
 }
 
 void BaseInfoWidget::updateDatabaseInfo()
@@ -63,7 +64,7 @@ void BaseInfoWidget::updateDatabaseInfo()
     ui->hostName->setText(RGlobal::G_GlobalConfigFile->databaseConfig.hostName);
     ui->databaseName->setText(RGlobal::G_GlobalConfigFile->databaseConfig.dbName);
     ui->userName->setText(RGlobal::G_GlobalConfigFile->databaseConfig.dbUser);
-    ui->password->setText(RGlobal::G_GlobalConfigFile->databaseConfig.dbPass);
+    ui->password->setText("******");
     ui->port->setText(QString::number(RGlobal::G_GlobalConfigFile->databaseConfig.port));
 }
 

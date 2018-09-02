@@ -30,7 +30,7 @@ void ConnectionPanel::release()
 
 }
 
-void ConnectionPanel::onMessage(Datastruct::MessageType type)
+void ConnectionPanel::onMessage(MessageType::MessageType type)
 {
 
 }

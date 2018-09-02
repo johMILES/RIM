@@ -103,3 +103,9 @@ bool Database::isError() const
 {
     return m_error;
 }
+
+void Database::close()
+{
+    if(m_open)
+        database.close();
+}
