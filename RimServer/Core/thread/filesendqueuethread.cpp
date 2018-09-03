@@ -2,12 +2,12 @@
 
 #ifdef __LOCAL_CONTACT__
 
-#include "../rsingleton.h"
-#include "../sql/databasemanager.h"
+#include "Base/util/rsingleton.h"
+#include "Base/sql/databasemanager.h"
 #include "../sql/sqlprocess.h"
 #include "Network/netglobal.h"'
 #include "Network/multitransmits/tcptransmit.h"
-#include "../protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 #include <QDebug>
 
 #include <condition_variable>

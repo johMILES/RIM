@@ -20,7 +20,7 @@
 
 class QFile;
 
-#include "../protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 #include "Network/connection/tcpclient.h"
 #include "Network/multitransmits/basetransmit.h"
 

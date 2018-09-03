@@ -14,10 +14,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "protocol/protocoldata.h"
+#include "Base/protocol/protocoldata.h"
 using namespace ProtocolType;
 
-#include "protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 #include "Network/head.h"
 
 

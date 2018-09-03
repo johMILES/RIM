@@ -1,6 +1,6 @@
 ﻿#include "baseinfodockpanel.h"
 
-#include "../../constants.h"
+#include "Base/constants.h"
 #include "baseinfowidget.h"
 
 BaseInfoDockPanel::BaseInfoDockPanel(QWidget *parent):

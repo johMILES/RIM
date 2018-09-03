@@ -13,7 +13,7 @@
 
 #include <QThread>
 
-#include "sql/database.h"
+#include "Base/sql/database.h"
 
 class RecvTextProcessThread : public QThread
 {

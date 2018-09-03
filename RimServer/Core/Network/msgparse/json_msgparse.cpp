@@ -6,12 +6,12 @@
 #include <QSharedPointer>
 #include <memory>
 
-#include "Util/rlog.h"
-#include "rsingleton.h"
-#include "protocol/protocoldata.h"
+#include "Base/util/rlog.h"
+#include "Base/util/rsingleton.h"
+#include "Base/protocol/protocoldata.h"
+#include "Base/global.h"
 #include "../msgprocess/dataprocess.h"
 #include "jsonkey.h"
-#include "global.h"
 
 using namespace ProtocolType;
 

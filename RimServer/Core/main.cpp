@@ -15,18 +15,17 @@
 #include <QMessageBox>
 #include <QTranslator>
 
-#include "Util/rutil.h"
-#include "Util/rlog.h"
-#include "rsingleton.h"
-#include "constants.h"
+#include "Base/util/rutil.h"
+#include "Base/util/rlog.h"
+#include "Base/util/rsingleton.h"
 #include "thread/recvtextprocessthread.h"
 #include "thread/sendtextprocessthread.h"
 #include "thread/filesendqueuethread.h"
-#include "constants.h"
-#include "global.h"
-#include "file/xmlparse.h"
-#include "broadcastnode.h"
-#include "file/globalconfigfile.h"
+#include "Base/constants.h"
+#include "Base/global.h"
+#include "Base/file/xmlparse.h"
+#include "Base/others/broadcastnode.h"
+#include "Base/file/globalconfigfile.h"
 
 #ifdef Q_OS_WIN
 #pragma  comment(lib,"ws2_32.lib")
@@ -36,7 +35,7 @@
 #include "Network/win32net/tcpserver.h"
 using namespace ServerNetwork;
 
-#include "sql/databasemanager.h"
+#include "Base/sql/databasemanager.h"
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -304,7 +303,7 @@ int main(int argc, char *argv[])
         Datastruct::SettingConfig localConfig = RGlobal::G_GlobalConfigFile->netSettingConfig;
 
 #ifdef __LOCAL_CONTACT__
-        RGlobal::G_RouteSettings = new ParameterSettings::RouteSettings;
+        RGlobal::G_RouteSettings = new ParameterSettings::RouteSetting;
         QString localConfigName = configFullPath + QDir::separator() + QStringLiteral("路由表.txt");
         a.setProperty(Constant::LOCAL_ROUTE_CONFIG_FILE,localConfigName);
         if(!RSingleton<XMLParse>::instance()->parseRouteSettings(localConfigName,RGlobal::G_RouteSettings)){

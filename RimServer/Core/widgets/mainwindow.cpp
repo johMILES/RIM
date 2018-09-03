@@ -7,10 +7,10 @@
 #include "Base/actionmanager/actioncontainer.h"
 #include "Base/actionmanager/actionmanager.h"
 #include "Base/actionmanager/action.h"
-#include "constants.h"
-#include "routetablemodule/routetable.h"
-#include "Util/rsingleton.h"
+#include "Base/constants.h"
+#include "Base/util/rsingleton.h"
 #include "Base/pluginmanager/pluginmanager.h"
+#include "RouteTable/routetable.h"
 
 #include "baseinfomodule/baseinfodockpanel.h"
 #include "connectionmodule/connectiondockpanel.h"

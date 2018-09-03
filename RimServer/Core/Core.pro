@@ -19,7 +19,6 @@ TEMPLATE = app
 #读取本地联系人列表，为了解决并需求变动带来的冲突问题
 DEFINES += __LOCAL_CONTACT__
 
-TRANSLATIONS += $${TARGET}_zh_CN.ts
 RC_ICONS += $${TARGET}.ico
 
 CONFIG(debug, debug|release) {
@@ -41,27 +40,16 @@ CONFIG(debug, debug|release) {
 }
 
 SOURCES += main.cpp\
-    rsingleton.cpp \
     sql/sqlprocess.cpp \
-    sql/databasemanager.cpp \
-    sql/database.cpp \
-    sql/datatable.cpp \
     thread/recvtextprocessthread.cpp \
     thread/sendtextprocessthread.cpp \
     jsonkey.cpp \
-    sql/rpersistence.cpp \
-    global.cpp \
-    sql/autotransaction.cpp \
-    file/xmlparse.cpp \
     Network/msgwrap/binary_wrapformat.cpp \
     Network/msgwrap/json_wrapformat.cpp \
     Network/msgwrap/msgwrap.cpp \
     Network/msgparse/dataparse.cpp \
     Network/msgparse/json_msgparse.cpp \
     Network/msgparse/msgparsefactory.cpp \
-    protocol/datastruct.cpp \
-    protocol/localprotocoldata.cpp \
-    protocol/protocoldata.cpp \
     Network/msgprocess/dataprocess.cpp \
     Network/msgwrap/wrapformat.cpp \
     Network/msgwrap/basemsgwrap.cpp \
@@ -72,8 +60,6 @@ SOURCES += main.cpp\
     Network/msgprocess/data716process.cpp \
     thread/netconnector.cpp \
     thread/filesendqueuethread.cpp \
-    broadcastnode.cpp \
-    file/globalconfigfile.cpp \
     widgets/mainwindow.cpp \
     widgets/baseinfomodule/baseinfodockpanel.cpp \
     widgets/connectionmodule/connectiondockpanel.cpp \
@@ -84,40 +70,19 @@ SOURCES += main.cpp\
     widgets/connectionmodule/mode/connectionmonitormodel.cpp \
     widgets/baseinfomodule/baseinfoedit.cpp \
     widgets/baseinfomodule/databaseedit.cpp \
-    widgets/routetablemodule/routesettings.cpp \
-    widgets/routetablemodule/routetable.cpp \
-    widgets/routetablemodule/routetableclientdelegate.cpp \
-    widgets/routetablemodule/routetableclientmodel.cpp \
-    widgets/routetablemodule/routetablehead.cpp \
-    widgets/routetablemodule/routetableserverdelegate.cpp \
-    widgets/routetablemodule/routetableservermodel.cpp \
-    widgets/routetablemodule/routetableview.cpp \
-    widgets/routetablemodule/newservernode.cpp \
-    widgets/routetablemodule/newclientnode.cpp
+    messdispatch.cpp
 
 HEADERS  += \
-    rsingleton.h \
-    constants.h \
     sql/sqlprocess.h \
-    sql/databasemanager.h \
-    sql/database.h \
-    sql/datatable.h \
     thread/recvtextprocessthread.h \
     thread/sendtextprocessthread.h \
     jsonkey.h \
-    sql/rpersistence.h \
-    global.h \
-    sql/autotransaction.h \
-    file/xmlparse.h \
     Network/msgwrap/binary_wrapformat.h \
     Network/msgwrap/json_wrapformat.h \
     Network/msgwrap/msgwrap.h \
     Network/msgparse/dataparse.h \
     Network/msgparse/json_msgparse.h \
     Network/msgparse/msgparsefactory.h \
-    protocol/datastruct.h \
-    protocol/localprotocoldata.h \
-    protocol/protocoldata.h \
     Network/msgprocess/dataprocess.h \
     Network/msgwrap/wrapformat.h \
     Network/msgwrap/basemsgwrap.h \
@@ -128,8 +93,6 @@ HEADERS  += \
     Network/msgprocess/data716process.h \
     thread/netconnector.h \
     thread/filesendqueuethread.h \
-    broadcastnode.h \
-    file/globalconfigfile.h \
     widgets/mainwindow.h \
     widgets/baseinfomodule/baseinfodockpanel.h \
     widgets/connectionmodule/connectiondockpanel.h \
@@ -141,16 +104,7 @@ HEADERS  += \
     widgets/baseinfomodule/baseinfoedit.h \
     widgets/baseinfomodule/databaseedit.h \
     widgets/baseinfomodule/baseinfoconstant.h \
-    widgets/routetablemodule/routesettings.h \
-    widgets/routetablemodule/routetable.h \
-    widgets/routetablemodule/routetableclientdelegate.h \
-    widgets/routetablemodule/routetableclientmodel.h \
-    widgets/routetablemodule/routetablehead.h \
-    widgets/routetablemodule/routetableserverdelegate.h \
-    widgets/routetablemodule/routetableservermodel.h \
-    widgets/routetablemodule/routetableview.h \
-    widgets/routetablemodule/newservernode.h \
-    widgets/routetablemodule/newclientnode.h
+    messdispatch.h
 
 FORMS    += \
     mainwindow.ui \
@@ -159,22 +113,24 @@ FORMS    += \
     widgets/operatemodule/operatewidget.ui
 
 win32-msvc2013{
-    LIBS += ../Lib/Util.lib
     LIBS += ../Lib/Base.lib
     LIBS += ../Lib/Network.lib
+    LIBS += ../Lib/plugins/RouteTable.lib
 }
 
 win32-g++{
-    LIBS+= -L../Lib/ -lUtil -lBase
+    LIBS+= -L../Lib/ -lBase
     QMAKE_CXXFLAGS_WARN_ON += -Wno-reorder
 }
 
 unix{
-    LIBS+= -L../Lib/ -lNetwork -lUtil -lBase
+    LIBS+= -L../Lib/ -lNetwork -lBase
 }
 
 INCLUDEPATH += $$PWD/../
-INCLUDEPATH += $$PWD/../../RimClient/
+INCLUDEPATH += $$PWD/../Plugin
+
+#message($$INCLUDEPATH)
 
 RESOURCES += \
     res.qrc

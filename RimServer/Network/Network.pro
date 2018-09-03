@@ -89,12 +89,8 @@ SOURCES += \
     wraprule/udp_wraprule.cpp \
     wraprule/wraprule.cpp
 
-INCLUDEPATH += $$PWD/../../RimClient/
+INCLUDEPATH += $$PWD/../
 
 win32-msvc2013{
-    LIBS += ../Lib/Util.lib
-}
-
-unix{
-    LIBS+= -L../Lib/ -lNetwork -lUtil
+    LIBS += ../Lib/Base.lib
 }

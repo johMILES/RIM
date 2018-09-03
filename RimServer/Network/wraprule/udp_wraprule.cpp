@@ -4,7 +4,7 @@
 
 #include "qdb61a_wraprule.h"
 #include "tk205_wraprule.h"
-#include "Util/rsingleton.h"
+#include "Base/util/rsingleton.h"
 
 namespace ServerNetwork{
 

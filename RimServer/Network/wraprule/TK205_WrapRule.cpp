@@ -1,6 +1,6 @@
 ﻿#include "tk205_wraprule.h"
 
-#include "Util/rsingleton.h"
+#include "Base/util/rsingleton.h"
 
 #ifdef __LOCAL_CONTACT__
 namespace ServerNetwork{

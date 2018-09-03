@@ -1,6 +1,6 @@
 ﻿#include "operetepanel.h"
 
-#include "../../constants.h"
+#include "Base/constants.h"
 #include "operatewidget.h"
 
 OperetePanel::OperetePanel(QWidget * parent):

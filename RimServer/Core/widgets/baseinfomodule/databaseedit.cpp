@@ -11,12 +11,13 @@
 
 #include <climits>
 
-#include "global.h"
-#include "sql/databasemanager.h"
-#include "../../file/globalconfigfile.h"
+#include "Base/global.h"
+#include "Base/sql/databasemanager.h"
+#include "Base/file/globalconfigfile.h"
 #include "Base/selfwidget/rbutton.h"
-#include "Util/regexp.h"
-#include "rsingleton.h"
+#include "Base/util/regexp.h"
+#include "Base/util/rsingleton.h"
+#include "messdispatch.h"
 
 class DatabaseEditPrivate : public QObject
 {
@@ -67,7 +68,7 @@ void DatabaseEditPrivate::initView()
     label_8->setMinimumSize(QSize(0, 26));
     label_8->setMaximumSize(QSize(100, 16777215));
     label_8->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_8->setText(tr("Database type:"));
+    label_8->setText(QObject::tr("Database type:"));
 
     gridLayout_2->addWidget(label_8, 0, 0, 1, 1);
 
@@ -77,7 +78,7 @@ void DatabaseEditPrivate::initView()
     label_9->setMinimumSize(QSize(0, 26));
     label_9->setMaximumSize(QSize(100, 16777215));
     label_9->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_9->setText(tr("Host name:"));
+    label_9->setText(QObject::tr("Host name:"));
 
     gridLayout_2->addWidget(label_9, 1, 0, 1, 1);
 
@@ -93,7 +94,7 @@ void DatabaseEditPrivate::initView()
     label_10->setMinimumSize(QSize(0, 26));
     label_10->setMaximumSize(QSize(100, 16777215));
     label_10->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_10->setText(tr("Database name:"));
+    label_10->setText(QObject::tr("Database name:"));
 
     gridLayout_2->addWidget(label_10, 2, 0, 1, 1);
 
@@ -109,7 +110,7 @@ void DatabaseEditPrivate::initView()
     label_11->setMinimumSize(QSize(0, 26));
     label_11->setMaximumSize(QSize(100, 16777215));
     label_11->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_11->setText(tr("User name:"));
+    label_11->setText(QObject::tr("User name:"));
 
     gridLayout_2->addWidget(label_11, 3, 0, 1, 1);
 
@@ -125,7 +126,7 @@ void DatabaseEditPrivate::initView()
     label_12->setMinimumSize(QSize(0, 26));
     label_12->setMaximumSize(QSize(100, 16777215));
     label_12->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_12->setText(tr("Password:"));
+    label_12->setText(QObject::tr("Password:"));
 
     gridLayout_2->addWidget(label_12, 4, 0, 1, 1);
 
@@ -142,7 +143,7 @@ void DatabaseEditPrivate::initView()
     label_13->setMinimumSize(QSize(0, 26));
     label_13->setMaximumSize(QSize(100, 16777215));
     label_13->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_13->setText(tr("Port:"));
+    label_13->setText(QObject::tr("Port:"));
 
     gridLayout_2->addWidget(label_13, 5, 0, 1, 1);
 
@@ -167,7 +168,7 @@ void DatabaseEditPrivate::initView()
 
     testConnect = new RButton(widget_2);
     testConnect->setObjectName(QStringLiteral("testConnect"));
-    testConnect->setText(tr("Test connection"));
+    testConnect->setText(QObject::tr("Test connection"));
     connect(testConnect,SIGNAL(pressed()),q_ptr,SLOT(testDatabaseConnect()));
 
     horizontalLayout->addWidget(testConnect);
@@ -241,11 +242,13 @@ void DatabaseEdit::confirm()
 
         if(RGlobal::G_GlobalConfigFile->saveDatabaseConfig(dbConfig)){
             QMessageBox::information(this,tr("information"),tr("Save successfully! Modifications will take effect after reboot."));
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(tr("Save successfully! Modifications will take effect after reboot."));
             close();
             return;
         }
 
         QMessageBox::warning(this,tr("warning"),tr("Save failed!"));
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(tr("Save failed!"));
     }
 }
 

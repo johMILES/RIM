@@ -4,14 +4,14 @@
 
 #include <QDebug>
 
-#include "rsingleton.h"
-#include "../../protocol/datastruct.h"
+#include "Base/util/rsingleton.h"
+#include "Base/protocol/datastruct.h"
 #include "../msgprocess/data716process.h"
 #include "Network/wraprule/tcp_wraprule.h"
 #include "Network/wraprule/qdb21_wraprule.h"
 #include "Network/connection/tcpclient.h"
-#include "../../protocol/protocoldata.h"
-#include "global.h"
+#include "Base/protocol/protocoldata.h"
+#include "Base/global.h"
 
 using namespace QDB21;
 using namespace ParameterSettings;

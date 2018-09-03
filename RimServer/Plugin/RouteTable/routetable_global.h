@@ -1,0 +1,12 @@
+#ifndef ROUTETABLE_GLOBAL_H
+#define ROUTETABLE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(ROUTETABLE_LIBRARY)
+#  define ROUTETABLESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define ROUTETABLESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // ROUTETABLE_GLOBAL_H
