@@ -35,6 +35,7 @@ public:
 
     bool open();
     bool isError()const;
+    void close();
 
 private:
     QSqlDatabase database;

@@ -23,12 +23,17 @@ public:
 
     void setSettings(QSettings * settings){this->settings = settings;}
 
+    bool saveSettingConfig(Datastruct::SettingConfig & config);
+    bool saveFileServerConfig(Datastruct::FileServerSetting & config);
+    bool saveDatabaseConfig(Datastruct::DatabaseConfigInfo & config);
+
     bool parseFile();
 
 public:
     RLog::LogConfig logConfig;
     Datastruct::SettingConfig netSettingConfig;
     Datastruct::DatabaseConfigInfo databaseConfig;
+    Datastruct::FileServerSetting fileServerSetting;
 
 private:
     QVariant getGlobalValue(const QString & group,const QString &key, const QVariant & defaultValue);

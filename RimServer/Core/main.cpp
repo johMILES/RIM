@@ -300,7 +300,6 @@ int main(int argc, char *argv[])
         {
             QMessageBox::warning(NULL,QObject::tr("Warning"),QObject::tr("Log module initialization failure!"),QMessageBox::Yes,QMessageBox::Yes);
         }
-        RGlobal::G_GlobalConfigFile->netSettingConfig.uploadFilePath = qApp->applicationDirPath() + Constant::PATH_File;
 
         Datastruct::SettingConfig localConfig = RGlobal::G_GlobalConfigFile->netSettingConfig;
 
@@ -356,14 +355,14 @@ int main(int argc, char *argv[])
         if(RGlobal::G_SERVICE_TYPE == SERVICE_FILE)
 #endif
         {
-            QDir fileDir(localConfig.uploadFilePath);
-            if(!fileDir.mkpath(localConfig.uploadFilePath))
+            QDir fileDir(RGlobal::G_GlobalConfigFile->fileServerSetting.fileRecvPath);
+            if(!fileDir.mkpath(RGlobal::G_GlobalConfigFile->fileServerSetting.fileRecvPath))
             {
-                RLOG_ERROR("create file path error ! %s",localConfig.uploadFilePath.toLocal8Bit().data());
+                RLOG_ERROR("create file path error ! %s",RGlobal::G_GlobalConfigFile->fileServerSetting.fileRecvPath.toLocal8Bit().data());
                 return -1;
             }
         }
-        RGlobal::G_FILE_UPLOAD_PATH = localConfig.uploadFilePath;
+        RGlobal::G_FILE_UPLOAD_PATH = RGlobal::G_GlobalConfigFile->fileServerSetting.fileRecvPath;
 
         RSingleton<DatabaseManager>::instance()->setConnectInfo(RGlobal::G_GlobalConfigFile->databaseConfig);
         RSingleton<DatabaseManager>::instance()->setDatabaseType(commandResult.dbType);

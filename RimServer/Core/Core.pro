@@ -7,8 +7,9 @@
 QT       += core gui
 QT       += sql
 QT       += xml
+QT       += network
 
-CONFIG+= console
+#CONFIG+= console
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -73,33 +74,26 @@ SOURCES += main.cpp\
     thread/filesendqueuethread.cpp \
     broadcastnode.cpp \
     file/globalconfigfile.cpp \
-    config/routetable.cpp \
-    config/routetableview.cpp \
-    config/routetableclientmodel.cpp \
-    config/routetableservermodel.cpp \
-    config/routetableserverdelegate.cpp \
-    config/routetableclientdelegate.cpp \
-    config/routetablehead.cpp \
-    config/routesettings.cpp \
-    widgets/actionmanager/actionmanager.cpp \
-    widgets/actionmanager/id.cpp \
-    widgets/actionmanager/actioncontainer.cpp \
-    widgets/actionmanager/command.cpp \
-    widgets/actionmanager/action.cpp \
     widgets/mainwindow.cpp \
     widgets/baseinfomodule/baseinfodockpanel.cpp \
     widgets/connectionmodule/connectiondockpanel.cpp \
     widgets/operatemodule/operetepanel.cpp \
-    widgets/rcomponent.cpp \
-    widgets/pluginmanager/pluginmanager.cpp \
     widgets/baseinfomodule/baseinfowidget.cpp \
     widgets/connectionmodule/connectionwidget.cpp \
     widgets/operatemodule/operatewidget.cpp \
-    widgets/pluginmanager/observer.cpp \
-    widgets/pluginmanager/subject.cpp \
     widgets/connectionmodule/mode/connectionmonitormodel.cpp \
     widgets/baseinfomodule/baseinfoedit.cpp \
-    widgets/baseinfomodule/databaseedit.cpp
+    widgets/baseinfomodule/databaseedit.cpp \
+    widgets/routetablemodule/routesettings.cpp \
+    widgets/routetablemodule/routetable.cpp \
+    widgets/routetablemodule/routetableclientdelegate.cpp \
+    widgets/routetablemodule/routetableclientmodel.cpp \
+    widgets/routetablemodule/routetablehead.cpp \
+    widgets/routetablemodule/routetableserverdelegate.cpp \
+    widgets/routetablemodule/routetableservermodel.cpp \
+    widgets/routetablemodule/routetableview.cpp \
+    widgets/routetablemodule/newservernode.cpp \
+    widgets/routetablemodule/newclientnode.cpp
 
 HEADERS  += \
     rsingleton.h \
@@ -136,56 +130,47 @@ HEADERS  += \
     thread/filesendqueuethread.h \
     broadcastnode.h \
     file/globalconfigfile.h \
-    config/routetable.h \
-    config/routetableview.h \
-    config/routetableclientmodel.h \
-    config/routetableservermodel.h \
-    config/routetableserverdelegate.h \
-    config/routetableclientdelegate.h \
-    config/routetablehead.h \
-    config/routesettings.h \
-    widgets/actionmanager/actionmanager.h \
-    widgets/actionmanager/id.h \
-    widgets/actionmanager/actioncontainer.h \
-    widgets/actionmanager/command.h \
-    widgets/actionmanager/action.h \
     widgets/mainwindow.h \
     widgets/baseinfomodule/baseinfodockpanel.h \
     widgets/connectionmodule/connectiondockpanel.h \
     widgets/operatemodule/operetepanel.h \
-    widgets/rcomponent.h \
-    widgets/pluginmanager/pluginmanager.h \
     widgets/baseinfomodule/baseinfowidget.h \
     widgets/connectionmodule/connectionwidget.h \
     widgets/operatemodule/operatewidget.h \
-    widgets/pluginmanager/observer.h \
-    widgets/pluginmanager/subject.h \
     widgets/connectionmodule/mode/connectionmonitormodel.h \
     widgets/baseinfomodule/baseinfoedit.h \
     widgets/baseinfomodule/databaseedit.h \
-    widgets/baseinfomodule/baseinfoconstant.h
+    widgets/baseinfomodule/baseinfoconstant.h \
+    widgets/routetablemodule/routesettings.h \
+    widgets/routetablemodule/routetable.h \
+    widgets/routetablemodule/routetableclientdelegate.h \
+    widgets/routetablemodule/routetableclientmodel.h \
+    widgets/routetablemodule/routetablehead.h \
+    widgets/routetablemodule/routetableserverdelegate.h \
+    widgets/routetablemodule/routetableservermodel.h \
+    widgets/routetablemodule/routetableview.h \
+    widgets/routetablemodule/newservernode.h \
+    widgets/routetablemodule/newclientnode.h
 
 FORMS    += \
-    config/routetable.ui \
     mainwindow.ui \
     widgets/baseinfomodule/baseinfowidget.ui \
     widgets/connectionmodule/connectionwidget.ui \
-    widgets/operatemodule/operatewidget.ui \
-    widgets/baseinfomodule/baseinfoedit.ui \
-    widgets/baseinfomodule/databaseedit.ui
+    widgets/operatemodule/operatewidget.ui
 
 win32-msvc2013{
     LIBS += ../Lib/Util.lib
-    LIBS+= ../Lib/network.lib
+    LIBS += ../Lib/Base.lib
+    LIBS += ../Lib/Network.lib
 }
 
 win32-g++{
-    LIBS+= -L../Lib/ -lUtil
+    LIBS+= -L../Lib/ -lUtil -lBase
     QMAKE_CXXFLAGS_WARN_ON += -Wno-reorder
 }
 
 unix{
-    LIBS+= -L../Lib/ -lNetwork -lUtil
+    LIBS+= -L../Lib/ -lNetwork -lUtil -lBase
 }
 
 INCLUDEPATH += $$PWD/../
