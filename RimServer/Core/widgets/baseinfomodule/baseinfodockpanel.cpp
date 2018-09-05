@@ -28,14 +28,14 @@ void BaseInfoDockPanel::release()
 
 }
 
-void BaseInfoDockPanel::onMessage(Datastruct::MessageType type)
+void BaseInfoDockPanel::onMessage(MessageType::MessageType type)
 {
     switch(type){
-        case Datastruct::MESS_BASEINFO_READY:
+        case MessageType::MESS_BASEINFO_READY:
             infoWidget->updateBaseInfo();
         break;
 
-        case Datastruct::MESS_DATABASEINFO_READY:
+        case MessageType::MESS_DATABASEINFO_READY:
             infoWidget->updateDatabaseInfo();
         break;
 

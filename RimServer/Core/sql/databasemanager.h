@@ -13,9 +13,23 @@
 
 #include <QString>
 #include <QSqlDriver>
+#include <QList>
 
 #include "database.h"
 #include "protocol/datastruct.h"
+
+class SupportedDB
+{
+public:
+    SupportedDB(QString drName,QString dname,Datastruct::DatabaseType dtype,bool isValid = true):
+        driverName(drName),databaseName(dname),databaseType(dtype),valid(isValid){
+
+    }
+    QString driverName;             /*!< 驱动名称 QMYSQL */
+    QString databaseName;           /*!< 数据库名称 MySQL */
+    Datastruct::DatabaseType databaseType;      /*!< 数据库类型 */
+    bool valid;                     /*!< 是否有效 */
+};
 
 class DatabaseManager
 {
@@ -24,8 +38,14 @@ public:
     void setDatabaseType(Datastruct::DatabaseType type);
     void setConnectInfo(Datastruct::DatabaseConfigInfo configInfo);
 
+    typedef QList<SupportedDB> SupportedDBCollection;
+
     static QString getDatabaseName(Datastruct::DatabaseType type);
-    static Datastruct::DatabaseType getDatabaseType(QString dbType);
+    static Datastruct::DatabaseType getDatabaseType(QString driverName);
+
+    static QStringList getSupportedDatabase();
+
+    static bool testConnection(Datastruct::DatabaseConfigInfo & info);
 
     Database * newDatabase(QString connectionName = "");
     Database database(QString connectionName = "");
@@ -35,6 +55,7 @@ public:
 
 private:
     Datastruct::DatabaseConfigInfo dbConfigInfo;
+    static SupportedDBCollection dbList;
 };
 
 #endif // DATABASEMANAGER_H

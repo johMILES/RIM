@@ -11,7 +11,8 @@
 #ifndef CONNECTIONDOCKWIDGET_H
 #define CONNECTIONDOCKWIDGET_H
 
-#include "../rcomponent.h"
+#include "Base/rcomponent.h"
+#include "Base/messagetype.h"
 
 class ConnectionPanel : public RComponent
 {
@@ -23,7 +24,7 @@ public:
     bool initialize();
     void release();
 
-    void onMessage(Datastruct::MessageType type);
+    void onMessage(MessageType::MessageType type);
 
 protected:
     void resizeEvent(QResizeEvent * event);

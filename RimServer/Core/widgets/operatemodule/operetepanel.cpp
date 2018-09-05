@@ -27,7 +27,7 @@ void OperetePanel::release()
 
 }
 
-void OperetePanel::onMessage(Datastruct::MessageType type)
+void OperetePanel::onMessage(MessageType::MessageType type)
 {
 
 }
