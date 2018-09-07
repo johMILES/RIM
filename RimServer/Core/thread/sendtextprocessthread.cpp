@@ -11,6 +11,7 @@
 #include "Util/rlog.h"
 
 #include "Network/multitransmits/tcptransmit.h"
+#include "Network/multitransmits/bdtransmit.h"
 
 using namespace ServerNetwork;
 
@@ -33,6 +34,9 @@ void SendTextProcessThread::initTransmits()
 {
     std::shared_ptr<TcpTransmit> tcpTrans = std::make_shared<TcpTransmit>();
     transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(tcpTrans->type(),tcpTrans));
+
+    std::shared_ptr<BDTransmit> bdTrans = std::make_shared<BDTransmit>();
+    transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(bdTrans->type(),bdTrans));
 }
 
 void SendTextProcessThread::run()

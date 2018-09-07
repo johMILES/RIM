@@ -59,7 +59,9 @@ HEADERS += \
     wraprule/tcpdatapacketrule.h \
     wraprule/tk205_wraprule.h \
     wraprule/udp_wraprule.h \
-    wraprule/wraprule.h
+    wraprule/wraprule.h \
+    multitransmits/bdtransmit.h \
+    wraprule/bd_wraprule.h
 
 SOURCES += \
     netglobal.cpp \
@@ -87,12 +89,15 @@ SOURCES += \
     wraprule/tcpdatapacketrule.cpp \
     wraprule/TK205_WrapRule.cpp \
     wraprule/udp_wraprule.cpp \
-    wraprule/wraprule.cpp
+    wraprule/wraprule.cpp \
+    multitransmits/bdtransmit.cpp \
+    wraprule/bd_wraprule.cpp
 
 INCLUDEPATH += $$PWD/../../RimClient/
 
 win32-msvc2013{
     LIBS += ../Lib/Util.lib
+    LIBS += ../Lib/RBDCom.lib
 }
 
 unix{

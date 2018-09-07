@@ -19,11 +19,13 @@ WorkThread::WorkThread(SharedIocpData *data):
 
 #ifdef __LOCAL_CONTACT__
     dataPacketRule = std::make_shared<TCP495DataPacketRule>();
+    bd_dataPacketRule = std::make_shared<BD_WrapRule>();
 #else
     dataPacketRule = std::make_shared<TCPDataPacketRule>();
 #endif
     Handler * handler = new SockTextDataHandler();
     dataPacketRule->registDataHandler(handler);
+    bd_dataPacketRule->registDataHandler(handler);
 }
 
 unsigned  __stdcall iocpProc(LPVOID v)

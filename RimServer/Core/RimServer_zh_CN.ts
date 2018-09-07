@@ -12,93 +12,104 @@
 <context>
     <name>BaseInfoEdit</name>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="47"/>
         <source>Basic info</source>
-        <translation>基本信息</translation>
+        <translation type="vanished">基本信息</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="90"/>
         <source>Listen port:</source>
-        <translation>监听端口号：</translation>
+        <translation type="vanished">监听端口号：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="128"/>
         <source>File save path:</source>
-        <translation>文件接收路径:</translation>
+        <translation type="vanished">文件接收路径:</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="150"/>
         <source>Listen ip:</source>
-        <translation>监听ip：</translation>
+        <translation type="vanished">监听ip：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="186"/>
         <source>Choose floder</source>
-        <translation>选择目录</translation>
+        <translation type="vanished">选择目录</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="230"/>
         <source>Cancel</source>
-        <translation>取 消</translation>
+        <translation type="vanished">取 消</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.ui" line="237"/>
         <source>Confirm</source>
         <oldsource>Confrim</oldsource>
-        <translation>确 认</translation>
+        <translation type="vanished">确 认</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="27"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="168"/>
         <source>Baseinfo Setting</source>
         <translation>基本信息设置</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="78"/>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="84"/>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="89"/>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="119"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="206"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="212"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="217"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="248"/>
         <source>warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="78"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="206"/>
         <source>Please select ip!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="84"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="212"/>
         <source>Port doesn&apos;t valid!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="89"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="217"/>
         <source>File path doesn&apos;t exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="114"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="243"/>
         <source>information</source>
         <translation type="unfinished">提示</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="114"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="243"/>
         <source>Save successfully! Modifications will take effect after reboot.</source>
         <translation type="unfinished">保存成功! 修改将在重启后生效.</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="119"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="248"/>
         <source>Save failed!</source>
         <translation type="unfinished">保存失败!</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="124"/>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="254"/>
         <source>Choose save file path</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BaseInfoEditPrivate</name>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="66"/>
+        <source>Listen ip:</source>
+        <translation type="unfinished">监听ip：</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="81"/>
+        <source>Listen port:</source>
+        <translation type="unfinished">监听端口号：</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="101"/>
+        <source>File save path:</source>
+        <translation type="unfinished">文件接收路径:</translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/baseinfoedit.cpp" line="122"/>
+        <source>Choose floder</source>
+        <translation type="unfinished">选择目录</translation>
     </message>
 </context>
 <context>
@@ -236,135 +247,158 @@
 <context>
     <name>DatabaseEdit</name>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="14"/>
-        <source>Dialog</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="47"/>
         <source>Database info</source>
-        <translation>数据库信息</translation>
+        <translation type="vanished">数据库信息</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="118"/>
         <source>Database type：</source>
-        <translation>数据库类型:</translation>
+        <translation type="vanished">数据库类型:</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="156"/>
         <source>Port：</source>
-        <translation>端口号：</translation>
+        <translation type="vanished">端口号：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="178"/>
         <source>Database name：</source>
-        <translation>数据库名：</translation>
+        <translation type="vanished">数据库名：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="200"/>
         <source>Password：</source>
-        <translation>密码：</translation>
+        <translation type="vanished">密码：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="222"/>
         <source>User name：</source>
-        <translation>用户名：</translation>
+        <translation type="vanished">用户名：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="244"/>
         <source>Host name：</source>
-        <translation>主机地址：</translation>
+        <translation type="vanished">主机地址：</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="282"/>
         <source>Test connection</source>
-        <translation>测试连接</translation>
+        <translation type="vanished">测试连接</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="326"/>
         <source>Cancel</source>
-        <translation>取 消</translation>
+        <translation type="vanished">取 消</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.ui" line="333"/>
         <source>Confirm</source>
         <oldsource>Confrim</oldsource>
-        <translation type="unfinished">确 认</translation>
+        <translation type="obsolete">确 认</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="24"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="203"/>
         <source>Database info Setting</source>
         <translation>数据库设置</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="50"/>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="68"/>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="70"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="243"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="261"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="263"/>
         <source>information</source>
         <translation type="unfinished">提示</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="50"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="243"/>
         <source>Save successfully! Modifications will take effect after reboot.</source>
         <translation type="unfinished">保存成功! 修改将在重启后生效.</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="55"/>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="106"/>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="116"/>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="121"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="248"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="284"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="294"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="299"/>
         <source>warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="55"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="248"/>
         <source>Save failed!</source>
         <translation type="unfinished">保存失败!</translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="68"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="261"/>
         <source>Connect database successfully!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="70"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="263"/>
         <source>Connect database failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="92"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="270"/>
         <source>Host name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="95"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="273"/>
         <source>Database name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="98"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="276"/>
         <source>User name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="101"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="279"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="106"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="284"/>
         <source>Port doesn&apos;t valid!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="116"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="294"/>
         <source>%1 content is empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="121"/>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="299"/>
         <source>%1 content contains space!</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DatabaseEditPrivate</name>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="70"/>
+        <source>Database type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="80"/>
+        <source>Host name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="96"/>
+        <source>Database name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="112"/>
+        <source>User name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="128"/>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="145"/>
+        <source>Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widgets/baseinfomodule/databaseedit.cpp" line="170"/>
+        <source>Test connection</source>
+        <translation type="unfinished">测试连接</translation>
     </message>
 </context>
 <context>
