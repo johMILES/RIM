@@ -1,16 +1,17 @@
 ﻿#include "bdtransmit.h"
-#include "../../BD/bdcommanager.h"
-#include "../../BD/bduser.h"
 #include "Util/rlog.h"
 #include <QFileInfo>
 
 namespace ServerNetwork{
 
 BDTransmit *g_BDTransmit = NULL;
+std::shared_ptr<BDTransmit> g_BDTrans = NULL;
+static int m_count = 0;
 
 BDTransmit::BDTransmit() :
     BaseTransmit()
 {
+    g_BDTransmit = this;
 }
 
 BDTransmit::~BDTransmit()
@@ -26,6 +27,21 @@ CommMethod BDTransmit::type()
 QString BDTransmit::name()
 {
     return "BDCom";
+}
+
+std::shared_ptr<BDTransmit> BDTransmit::instance()
+{
+    m_count++;
+    if(g_BDTrans == NULL)
+    {
+        g_BDTrans = std::make_shared<BDTransmit>();
+    }
+    return g_BDTrans;
+}
+
+int BDTransmit::CreateCount()
+{
+    return m_count;
 }
 
 bool BDTransmit::startTransmit(SendUnit &unit)

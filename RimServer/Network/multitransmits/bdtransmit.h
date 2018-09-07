@@ -30,6 +30,9 @@ public:
     CommMethod type();
     QString name();
 
+    static std::shared_ptr<BDTransmit> instance();
+    static int CreateCount();
+
     bool startTransmit(SendUnit &unit);
     bool startRecv(char *recvBuff, int recvBuffLen,ByteArrayHandler recvDataFunc);
 
