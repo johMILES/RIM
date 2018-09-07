@@ -343,11 +343,21 @@ void RUtil::setAbsoulteImgPath(QString targetHtml, QString userID)
 }
 
 /*!
+ * @brief 将以&开始的特殊Html字符转义为html中能显示的字符串
+ * @param targetHtml 需要转义处理的字符串
+ */
+void RUtil::stringToHtmlString(QString &targetHtml)
+{
+    targetHtml = targetHtml.replace("&","&amp;");
+}
+
+/*!
  * @brief 将字符串转换为可显示的HTML源码
  * @param targetHtml 需要转义处理的字符串
  */
 void RUtil::StringToHtml(QString &targetHtml)
 {
+    stringToHtmlString(targetHtml);
     escapeSingleQuote(targetHtml);
     escapeBracketsQuote(targetHtml);
     escapeLFQuote(targetHtml);
@@ -361,6 +371,7 @@ void RUtil::escapeSingleQuote(QString &targetHtml)
 {
     targetHtml = targetHtml.replace("\\","\\\\");
     targetHtml = targetHtml.replace("\'","&qpos");
+    targetHtml = targetHtml.replace("\"","&quot");
 }
 
 /*!
@@ -383,6 +394,8 @@ void RUtil::escapeLFQuote(QString &targetHtml)
 {
     targetHtml = targetHtml.replace("\n","</br>");
     targetHtml = targetHtml.replace(" ","&nbsp;");
+    targetHtml = targetHtml.replace("\t","&emsp;&emsp;&emsp;&emsp;");
+
 }
 
 /*!

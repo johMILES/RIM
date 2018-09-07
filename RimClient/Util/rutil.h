@@ -56,6 +56,7 @@ public:
     static void setRelativeImgPath(QString &targetHtml,QString userID);
     static void setAbsoulteImgPath(QString targetHtml, QString userID);
 
+    static void stringToHtmlString(QString &targetHtml);
     static void StringToHtml(QString &targetHtml);
     static void escapeSingleQuote(QString &targetHtml);
     static void escapeBracketsQuote(QString &targetHtml);
