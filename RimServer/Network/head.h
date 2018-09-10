@@ -160,7 +160,7 @@ enum CommMethod{
     C_NONE,     /*!< 错误方式*/
     C_UDP,      /*!< UDP方式 */
     C_TCP,      /*!< TCP方式 */
-    C_BUS       /*!< 总线方式 */
+    C_DDS       /*!< DDS方式 */
 };
 
 

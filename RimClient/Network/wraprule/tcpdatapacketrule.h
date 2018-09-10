@@ -1,5 +1,5 @@
 ﻿/*!
- *  @brief     TCP数据包封装
+ *  @brief     通用TCP数据包封装
  *  @details   用于对TCP数据进行解包，确保数据接收正确。
  *  @author    wey
  *  @version   1.0

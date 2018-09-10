@@ -59,7 +59,10 @@ HEADERS += \
     wraprule/tcpdatapacketrule.h \
     wraprule/tk205_wraprule.h \
     wraprule/udp_wraprule.h \
-    wraprule/wraprule.h
+    wraprule/wraprule.h \
+    multitransmits/ddstransmit.h \
+    3rdhead/DDS.h \
+    multitransmits/transmits.h
 
 SOURCES += \
     netglobal.cpp \
@@ -87,10 +90,13 @@ SOURCES += \
     wraprule/tcpdatapacketrule.cpp \
     wraprule/TK205_WrapRule.cpp \
     wraprule/udp_wraprule.cpp \
-    wraprule/wraprule.cpp
+    wraprule/wraprule.cpp \
+    multitransmits/ddstransmit.cpp \
+    multitransmits/transmits.cpp
 
 INCLUDEPATH += $$PWD/../
 
 win32-msvc2013{
     LIBS += ../Lib/Base.lib
+    LIBS += ../Lib/DDS.lib
 }

@@ -170,7 +170,6 @@ SOURCES += \
     Network/msgparse/dataparse.cpp \
     Network/msgparse/json_msgparse.cpp \
     Network/msgparse/msgparsefactory.cpp \
-    Network/msgprocess/json_dataprocess.cpp \
     Network/msgparse/rbuffer_msgparse.cpp \
     Network/msgparse/binaryparsefactory.cpp \
     Network/msgprocess/binary_dataprocess.cpp \
@@ -299,7 +298,6 @@ HEADERS  += \
     Network/msgparse/dataparse.h \
     Network/msgparse/json_msgparse.h \
     Network/msgparse/msgparsefactory.h \
-    Network/msgprocess/json_dataprocess.h \
     Network/msgparse/rbuffer_msgparse.h \
     Network/msgparse/binaryparsefactory.h \
     Network/msgprocess/binary_dataprocess.h \

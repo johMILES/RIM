@@ -14,11 +14,13 @@
 
 #include "Network/rtask.h"
 #include "Network/rsocket.h"
+#include "Network/multitransmits/transmits.h"
 #include <mutex>
 #include <condition_variable>
 #include <memory>
 #include <map>
 #include <vector>
+#include <iterator>
 
 namespace ClientNetwork
 {
@@ -88,7 +90,7 @@ protected:
 
     std::mutex mutex;
     std::condition_variable condition;
-    std::map<CommMethod,std::shared_ptr<ClientNetwork::BaseTransmit>> transmits;
+    ClientNetwork::Transmits transmits;
 };
 
 class TextNetConnector : public SuperConnector

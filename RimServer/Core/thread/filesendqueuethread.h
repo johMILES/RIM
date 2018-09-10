@@ -22,7 +22,7 @@ class QFile;
 
 #include "Base/protocol/datastruct.h"
 #include "Network/connection/tcpclient.h"
-#include "Network/multitransmits/basetransmit.h"
+#include "Network/multitransmits/transmits.h"
 
 /*!
  *  @brief  待发送文件管理器
@@ -83,7 +83,7 @@ private:
     std::list<FileSendTask> sendList;
     Database * database;
 
-    std::map<CommMethod,BaseTransmit_Ptr> transmits;
+    ServerNetwork::Transmits transmits;
 };
 
 #endif

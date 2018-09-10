@@ -32,7 +32,9 @@ SendTextProcessThread::~SendTextProcessThread()
 void SendTextProcessThread::initTransmits()
 {
     std::shared_ptr<TcpTransmit> tcpTrans = std::make_shared<TcpTransmit>();
-    transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(tcpTrans->type(),tcpTrans));
+    if(tcpTrans->initialize()){
+        transmits.insert(tcpTrans);
+    }
 }
 
 void SendTextProcessThread::run()
@@ -71,8 +73,8 @@ void SendTextProcessThread::run()
 
 bool SendTextProcessThread::handleDataSend(SendUnit &unit)
 {
-    auto selectedTrans = transmits.find(unit.method);
-    if( selectedTrans == transmits.end())
+    auto selectedTrans = transmits.transmits.find(unit.method);
+    if( selectedTrans == transmits.transmits.end())
         return false;
 
     return (*selectedTrans).second->startTransmit(unit);
