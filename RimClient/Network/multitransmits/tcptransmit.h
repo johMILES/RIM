@@ -30,6 +30,7 @@ public:
     CommMethod type();
     QString name();
 
+    bool initialize();
     bool startTransmit(SendUnit &unit,SendCallbackFunc func = nullptr);
     bool startRecv(char *recvBuff, int recvBuffLen,DataHandler recvDataFunc);
 

@@ -12,6 +12,7 @@
 
 #include "../network_global.h"
 #include <functional>
+#include <memory>
 #include <QByteArray>
 
 typedef std::function<void(FileDataSendProgress)> SendCallbackFunc;
@@ -24,21 +25,22 @@ public:
     explicit BaseTransmit();
     virtual ~BaseTransmit();
 
+    virtual bool initialize() = 0;
     virtual bool startTransmit(SendUnit & unit,SendCallbackFunc func = nullptr) = 0;
     virtual bool startRecv(char * recvBuff,int recvBuffLen,DataHandler recvDataFunc) = 0;
+    virtual bool close() = 0;
 
     virtual CommMethod type() = 0;
     virtual QString name() = 0;
 
     bool connected();
 
-    virtual bool connect(const char *remoteIp, const unsigned short remotePort, int timeouts = 3) = 0;
-    virtual bool close() = 0;
-
 protected:
     bool netConnected;
 };
 
 }
+
+typedef std::shared_ptr<ClientNetwork::BaseTransmit> BaseTransmitPtr;
 
 #endif // BASETRANSMIT_H

@@ -27,6 +27,9 @@ public:
 
     QSize sizeHint()const;
 
+private slots:
+    void showRealRecord(QString content);
+
 private:
     Ui::OperateWidget *ui;
 };

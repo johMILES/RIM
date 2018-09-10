@@ -1,6 +1,6 @@
 ﻿#include "basemsgwrap.h"
 
-#include "rsingleton.h"
+#include "Base/util/rsingleton.h"
 #include "json_wrapformat.h"
 #include "binary_wrapformat.h"
 #include "Network/head.h"

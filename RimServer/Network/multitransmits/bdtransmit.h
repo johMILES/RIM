@@ -13,6 +13,7 @@
 #include <queue>
 #include <memory>
 #include <condition_variable>
+#include <QByteArray>
 
 #include "basetransmit.h"
 #include "../wraprule/bd_wraprule.h"
@@ -30,13 +31,9 @@ public:
     CommMethod type();
     QString name();
 
-    static std::shared_ptr<BDTransmit> instance();
-    static int CreateCount();
-
+    bool initialize();
     bool startTransmit(SendUnit &unit);
     bool startRecv(char *recvBuff, int recvBuffLen,ByteArrayHandler recvDataFunc);
-
-    bool connect(const char *remoteIp, const unsigned short remotePort, int timeouts);
     bool close();
 
     void recvComData(int CmdType,char*data,int size);

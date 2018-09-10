@@ -6,7 +6,7 @@
 #include "qdb21_wraprule.h"
 #include "qdb2051_wraprule.h"
 #include "qdb2048_wraprule.h"
-#include "Util/rsingleton.h"
+#include "Base/util/rsingleton.h"
 
 namespace ServerNetwork{
 

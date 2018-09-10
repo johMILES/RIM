@@ -189,12 +189,14 @@ TextNetConnector *TextNetConnector::instance()
 bool TextNetConnector::initialize()
 {
     std::shared_ptr<ClientNetwork::TcpTransmit> tcpTransmit = std::make_shared<ClientNetwork::TcpTransmit>();
-    transmits.insert(std::pair<CommMethod,std::shared_ptr<ClientNetwork::BaseTransmit>>(tcpTransmit->type(),tcpTransmit));
+    if(tcpTransmit->initialize()){
+        transmits.insert(tcpTransmit);
+    }
 
     msgSender = std::make_shared<ClientNetwork::TextSender>();
     QObject::connect(msgSender.get(),SIGNAL(socketError(CommMethod)),this,SLOT(respSocketError(CommMethod)));
 
-    std::for_each(transmits.begin(),transmits.end(),[&](const std::pair<CommMethod,std::shared_ptr<ClientNetwork::BaseTransmit>> item){
+    ClientNetwork::Transmits::PairFunc func = [&](ClientNetwork::Transmits::PairTransmit item){
         if(msgSender->addTransmit(item.second)
 #ifdef __LOCAL_CONTACT__
                 && File716SendTask::instance()->addTransmit(item.second)
@@ -210,7 +212,9 @@ bool TextNetConnector::initialize()
         }else{
             MessDiapatch::instance()->onTransmitsInitialError(QObject::tr("Initial transmit %1 error!").arg(item.second->name()));
         }
-    });
+    };
+
+    transmits.for_each(func);
 
     return true;
 }
@@ -244,7 +248,7 @@ void TextNetConnector::respSocketError(CommMethod method)
  */
 void TextNetConnector::doConnect()
 {
-    std::shared_ptr<ClientNetwork::BaseTransmit> tcpTrans = transmits.at(C_TCP);
+    std::shared_ptr<ClientNetwork::TcpTransmit> tcpTrans = transmits.at<ClientNetwork::TcpTransmit>(C_TCP);
     if(tcpTrans.get()!= nullptr && !tcpTrans->connected()){
         char ip[50] = {0};
         memcpy(ip,Global::G_GlobalConfigFile->netSettings.connectedTextIpPort.ip.toLocal8Bit().data(),Global::G_GlobalConfigFile->netSettings.connectedTextIpPort.ip.toLocal8Bit().size());
@@ -269,9 +273,10 @@ void TextNetConnector::doReconnect()
 
 void TextNetConnector::doDisconnect()
 {
-    std::for_each(transmits.begin(),transmits.end(),[](std::pair<CommMethod,std::shared_ptr<ClientNetwork::BaseTransmit>> item){
+    ClientNetwork::Transmits::PairFunc func = [](ClientNetwork::Transmits::PairTransmit item){
         item.second->close();
-    });
+    };
+    transmits.for_each(func);
 
     msgSender->stopMe();
 

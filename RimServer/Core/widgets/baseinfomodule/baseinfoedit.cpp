@@ -15,9 +15,11 @@
 
 #include <climits>
 
-#include "global.h"
-#include "file/globalconfigfile.h"
+#include "Base/global.h"
+#include "Base/file/globalconfigfile.h"
 #include "Base/selfwidget/rbutton.h"
+#include "Base/util/rsingleton.h"
+#include "messdispatch.h"
 
 class BaseInfoEditPrivate : public QObject
 {
@@ -63,7 +65,7 @@ void BaseInfoEditPrivate::initView()
     label_2->setMinimumSize(QSize(0, 26));
     label_2->setMaximumSize(QSize(100, 16777215));
     label_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_2->setText(tr("Listen ip:"));
+    label_2->setText(QObject::tr("Listen ip:"));
 
     gridLayout->addWidget(label_2, 0, 0, 1, 1);
 
@@ -78,7 +80,7 @@ void BaseInfoEditPrivate::initView()
     label_3->setMinimumSize(QSize(0, 26));
     label_3->setMaximumSize(QSize(100, 16777215));
     label_3->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_3->setText(tr("Listen port:"));
+    label_3->setText(QObject::tr("Listen port:"));
 
     gridLayout->addWidget(label_3, 1, 0, 1, 1);
 
@@ -98,7 +100,7 @@ void BaseInfoEditPrivate::initView()
     label_5->setMinimumSize(QSize(0, 26));
     label_5->setMaximumSize(QSize(100, 16777215));
     label_5->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
-    label_5->setText(tr("File save path:"));
+    label_5->setText(QObject::tr("File save path:"));
 
     gridLayout->addWidget(label_5, 2, 0, 1, 1);
 
@@ -119,7 +121,7 @@ void BaseInfoEditPrivate::initView()
     //choose floder
     chooseFloder = new RButton(widget_2);
     chooseFloder->setObjectName(QStringLiteral("chooseFloder"));
-    chooseFloder->setText(tr("Choose floder"));
+    chooseFloder->setText(QObject::tr("Choose floder"));
 
     horizontalLayout->addWidget(chooseFloder);
 
@@ -241,11 +243,13 @@ void BaseInfoEdit::confirm()
 
     if(RGlobal::G_GlobalConfigFile->saveSettingConfig(netConfig) && RGlobal::G_GlobalConfigFile->saveFileServerConfig(fileConfig)){
         QMessageBox::information(this,tr("information"),tr("Save successfully! Modifications will take effect after reboot."));
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(tr("Save successfully! Modifications will take effect after reboot."));
         close();
         return;
     }
 
     QMessageBox::warning(this,tr("warning"),tr("Save failed!"));
+    RSingleton<MessDispatch>::instance()->onRecvRealRecord(tr("Save baseinfo failed!"));
 }
 
 void BaseInfoEdit::chooseFloder()

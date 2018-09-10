@@ -10,6 +10,7 @@ DEFINES += NETWORK_LIBRARY
 
 #读取本地联系人列表，为了解决并需求变动带来的冲突问题
 DEFINES += __LOCAL_CONTACT__
+DEFINES += RBDCOM_LIBRARY
 
 TEMPLATE = lib
 
@@ -60,8 +61,13 @@ HEADERS += \
     wraprule/tk205_wraprule.h \
     wraprule/udp_wraprule.h \
     wraprule/wraprule.h \
+    multitransmits/ddstransmit.h \
+    3rdhead/DDS.h \
+    multitransmits/transmits.h \
     multitransmits/bdtransmit.h \
-    wraprule/bd_wraprule.h
+    wraprule/bd_wraprule.h \
+    3rdhead/bdcommanager.h \
+    3rdhead/bduser.h
 
 SOURCES += \
     netglobal.cpp \
@@ -90,16 +96,15 @@ SOURCES += \
     wraprule/TK205_WrapRule.cpp \
     wraprule/udp_wraprule.cpp \
     wraprule/wraprule.cpp \
+    multitransmits/ddstransmit.cpp \
+    multitransmits/transmits.cpp \
     multitransmits/bdtransmit.cpp \
     wraprule/bd_wraprule.cpp
 
-INCLUDEPATH += $$PWD/../../RimClient/
+INCLUDEPATH += $$PWD/../
 
 win32-msvc2013{
-    LIBS += ../Lib/Util.lib
+    LIBS += ../Lib/Base.lib
+    LIBS += ../Lib/DDS.lib
     LIBS += ../Lib/RBDCom.lib
-}
-
-unix{
-    LIBS+= -L../Lib/ -lNetwork -lUtil
 }

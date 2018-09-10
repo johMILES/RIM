@@ -8,8 +8,8 @@
 #include "head.h"
 #include "../win32net/iocpcontext.h"
 #include "../dataprocess/handler.h"
-#include "Util/rsingleton.h"
-#include "Util/scaleswitcher.h"
+#include "Base/util/rsingleton.h"
+#include "Base/util/scaleswitcher.h"
 #include "tcp_wraprule.h"
 #include "../connection/tcpclient.h"
 

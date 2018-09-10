@@ -10,7 +10,7 @@
 #ifndef WRAPFORMAT_H
 #define WRAPFORMAT_H
 
-#include "../../protocol/protocoldata.h"
+#include "Base/protocol/protocoldata.h"
 using namespace ProtocolType;
 
 class WrapFormat

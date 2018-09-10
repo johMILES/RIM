@@ -12,14 +12,7 @@ namespace ClientNetwork{
 TcpTransmit::TcpTransmit():
     BaseTransmit(),tcpSocket(nullptr)
 {
-#ifdef __LOCAL_CONTACT__
-    dataPacketRule = std::make_shared<TCP495DataPacketRule>();
-#else
-    dataPacketRule = std::make_shared<TCPDataPacketRule>();
-#endif
-    tcpSocket = new RSocket();
 
-    sendFunc = [&](const char * buff,const int length)->int{return tcpSocket->send(buff,length);};
 }
 
 TcpTransmit::~TcpTransmit()
@@ -35,6 +28,19 @@ CommMethod TcpTransmit::type()
 QString TcpTransmit::name()
 {
     return "TCP";
+}
+
+bool TcpTransmit::initialize()
+{
+#ifdef __LOCAL_CONTACT__
+    dataPacketRule = std::make_shared<TCP495DataPacketRule>();
+#else
+    dataPacketRule = std::make_shared<TCPDataPacketRule>();
+#endif
+    tcpSocket = new RSocket();
+
+    sendFunc = [&](const char * buff,const int length)->int{return tcpSocket->send(buff,length);};
+    return true;
 }
 
 /*!

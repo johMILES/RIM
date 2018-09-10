@@ -1,6 +1,6 @@
 ﻿#include "tcptransmit.h"
 
-#include "Util/rlog.h"
+#include "Base/util/rlog.h"
 #include "../socket.h"
 #include "../win32net/iocpcontext.h"
 
@@ -15,15 +15,7 @@ namespace ServerNetwork{
 TcpTransmit::TcpTransmit():
     BaseTransmit(),tcpSocket(nullptr)
 {
-#ifdef __LOCAL_CONTACT__
-    dataPacketRule = std::make_shared<TCP495DataPacketRule>();
-#else
-    dataPacketRule = std::make_shared<TCPDataPacketRule>();
-#endif
-//    tcpSocket = new RSocket();
 
-    sendFunc = std::bind(&TcpTransmit::sendIocpData,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
-    byteSendFunc = std::bind(&TcpTransmit::sendByteData,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
 }
 
 TcpTransmit::~TcpTransmit()
@@ -41,6 +33,23 @@ QString TcpTransmit::name()
     return "TCP";
 }
 
+bool TcpTransmit::initialize()
+{
+#ifdef __LOCAL_CONTACT__
+    dataPacketRule = std::make_shared<TCP495DataPacketRule>();
+#else
+    dataPacketRule = std::make_shared<TCPDataPacketRule>();
+#endif
+//    tcpSocket = new RSocket();
+
+    sendFunc = std::bind(&TcpTransmit::sendIocpData,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    byteSendFunc = std::bind(&TcpTransmit::sendByteData,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+
+    netConnected = true;
+
+    return true;
+}
+
 /*!
  * @brief 开始传输指定的数据单元
  * @param[in] SendUnit 待发送的数据单元
@@ -50,6 +59,11 @@ QString TcpTransmit::name()
  */
 bool TcpTransmit::startTransmit(SendUnit &unit)
 {
+    if(unit.method != type() || !netConnected){
+        RLOG_ERROR("transfer method is not correct!");
+        return false;
+    }
+
     if(unit.localServer){
         if(dataPacketRule->wrap(unit,sendFunc))
             return true;
@@ -116,11 +130,13 @@ bool TcpTransmit::startRecv(char *recvBuff, int recvBuffLen, ByteArrayHandler re
     int recvLen = tcpSocket->recv(recvBuff,recvBuffLen);
     if(recvLen > 0)
     {
-//        if(!dataPacketRule->unwrap(QByteArray(recvBuff,recvLen),recvDataFunc)){
-//            RLOG_ERROR("Tcp socket parse error! %d",tcpSocket->getLastError());
-//        }else{
-//            return true;
-//        }
+#ifndef __LOCAL_CONTACT__
+        if(!dataPacketRule->unwrap(QByteArray(recvBuff,recvLen),recvDataFunc)){
+            RLOG_ERROR("Tcp socket parse error! %d",tcpSocket->getLastError());
+        }else{
+            return true;
+        }
+#endif
     }
     else if(recvLen == 0)
     {

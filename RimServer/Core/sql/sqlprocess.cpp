@@ -11,18 +11,18 @@
 #include <mutex>
 #include <memory>
 
-#include "datatable.h"
-#include "sql/database.h"
-#include "sql/databasemanager.h"
-#include "Util/rutil.h"
-#include "constants.h"
-#include "rpersistence.h"
-#include "protocol/datastruct.h"
-#include "Util/rlog.h"
-#include "global.h"
-#include "autotransaction.h"
-#include "../rsingleton.h"
-#include "../protocol/protocoldata.h"
+#include "Base/sql/datatable.h"
+#include "Base/sql/database.h"
+#include "Base/sql/databasemanager.h"
+#include "Base/sql/rpersistence.h"
+#include "Base/global.h"
+#include "Base/constants.h"
+#include "Base/protocol/datastruct.h"
+#include "Base/sql/autotransaction.h"
+#include "Base/protocol/protocoldata.h"
+#include "Base/util/rutil.h"
+#include "Base/util/rlog.h"
+#include "Base/util/rsingleton.h"
 
 std::mutex ACCOUNT_LOCK;
 std::mutex GROUP_ACCOUNT_LOCK;

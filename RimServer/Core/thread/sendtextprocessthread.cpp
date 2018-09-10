@@ -8,7 +8,7 @@
 #include "Network/win32net/iocpcontext.h"
 #include "Network/win32net/tcpserver.h"
 #include "../Network/connection/seriesconnection.h"
-#include "Util/rlog.h"
+#include "Base/util/rlog.h"
 
 #include "Network/multitransmits/tcptransmit.h"
 #include "Network/multitransmits/bdtransmit.h"
@@ -33,14 +33,12 @@ SendTextProcessThread::~SendTextProcessThread()
 void SendTextProcessThread::initTransmits()
 {
     std::shared_ptr<TcpTransmit> tcpTrans = std::make_shared<TcpTransmit>();
-    transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(tcpTrans->type(),tcpTrans));
+    if(tcpTrans->initialize())
+        transmits.insert(tcpTrans);
 
-    if(BDTransmit::CreateCount() == 0)
-    {
-        std::shared_ptr<BDTransmit> bdTrans =  BDTransmit::instance();
-        bdTrans->connected();
-        transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(bdTrans->type(),bdTrans));
-    }
+    std::shared_ptr<BDTransmit> bdTrans = std::make_shared<BDTransmit>();
+    if(bdTrans->initialize())
+        transmits.insert(bdTrans);
 }
 
 void SendTextProcessThread::run()
@@ -79,8 +77,8 @@ void SendTextProcessThread::run()
 
 bool SendTextProcessThread::handleDataSend(SendUnit &unit)
 {
-    auto selectedTrans = transmits.find(unit.method);
-    if( selectedTrans == transmits.end())
+    auto selectedTrans = transmits.transmits.find(unit.method);
+    if( selectedTrans == transmits.transmits.end())
         return false;
 
     return (*selectedTrans).second->startTransmit(unit);

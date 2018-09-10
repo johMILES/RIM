@@ -15,7 +15,6 @@
 
 #include <functional>
 #include <memory>
-#include <QByteArray>
 
 namespace ServerNetwork{
 
@@ -25,16 +24,17 @@ public:
     explicit BaseTransmit();
     virtual ~BaseTransmit();
 
+    //生命周期
+    virtual bool initialize() = 0;
     virtual bool startTransmit(SendUnit & unit) = 0;
     virtual bool startRecv(char * recvBuff,int recvBuffLen,ByteArrayHandler recvDataFunc) = 0;
+    virtual bool close() = 0;
 
+    //基本信息
     virtual CommMethod type() = 0;
     virtual QString name() = 0;
 
     bool connected();
-
-    virtual bool connect(const char *remoteIp, const unsigned short remotePort, int timeouts = 3) = 0;
-    virtual bool close() = 0;
 
 protected:
     bool netConnected;
@@ -42,6 +42,6 @@ protected:
 
 }
 
-typedef std::shared_ptr<ServerNetwork::BaseTransmit> BaseTransmit_Ptr;
+typedef std::shared_ptr<ServerNetwork::BaseTransmit> BaseTransmitPtr;
 
 #endif // BASETRANSMIT_H

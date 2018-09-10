@@ -3,14 +3,14 @@
 #include <QThread>
 #include <QScopedPointer>
 
-#include "Util/rutil.h"
-#include "rsingleton.h"
+#include "Base/util/rutil.h"
+#include "Base/util/rsingleton.h"
 #include "sql/sqlprocess.h"
 #include "Network/msgwrap/wrapfactory.h"
 #include "Network/head.h"
 #include "Network/netglobal.h"
-#include "global.h"
-#include "protocol/datastruct.h"
+#include "Base/global.h"
+#include "Base/protocol/datastruct.h"
 
 #include "Network/connection/tcpclient.h"
 using namespace ServerNetwork;

@@ -2,12 +2,12 @@
 
 #ifdef __LOCAL_CONTACT__
 
-#include "../rsingleton.h"
-#include "../sql/databasemanager.h"
+#include "Base/util/rsingleton.h"
+#include "Base/sql/databasemanager.h"
 #include "../sql/sqlprocess.h"
 #include "Network/netglobal.h"'
 #include "Network/multitransmits/tcptransmit.h"
-#include "../protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 #include <QDebug>
 
 #include <condition_variable>
@@ -159,13 +159,15 @@ void FileSendQueueThread::processFileData()
 void FileSendQueueThread::initTransmits()
 {
     std::shared_ptr<ServerNetwork::TcpTransmit> tcpTrans = std::make_shared<ServerNetwork::TcpTransmit>();
-    transmits.insert(std::make_pair<CommMethod,BaseTransmit_Ptr>(tcpTrans->type(),tcpTrans));
+    if(tcpTrans->initialize()){
+        transmits.insert(tcpTrans);
+    }
 }
 
 bool FileSendQueueThread::handleDataSend(SendUnit &unit)
 {
-    auto selectedTrans = transmits.find(unit.method);
-    if( selectedTrans == transmits.end())
+    auto selectedTrans = transmits.transmits.find(unit.method);
+    if( selectedTrans == transmits.transmits.end())
         return false;
 
     return (*selectedTrans).second->startTransmit(unit);

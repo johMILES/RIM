@@ -28,11 +28,12 @@ public:
     CommMethod type();
     QString name();
 
+    bool initialize();
     bool startTransmit(SendUnit &unit);
     bool startRecv(char *recvBuff, int recvBuffLen,ByteArrayHandler recvDataFunc);
+    bool close();
 
     bool connect(const char *remoteIp, const unsigned short remotePort, int timeouts);
-    bool close();
 
 private:
     bool sendIocpData(int sockId,IocpContext * context,DWORD & sendLength);

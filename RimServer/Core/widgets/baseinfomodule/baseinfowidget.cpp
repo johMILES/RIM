@@ -4,15 +4,15 @@
 #include <QAction>
 #include <QDir>
 
-#include "../../protocol/datastruct.h"
-#include "../../file/globalconfigfile.h"
-#include "../../global.h"
-#include "../../sql/databasemanager.h"
+#include "Base/protocol/datastruct.h"
+#include "Base/file/globalconfigfile.h"
+#include "Base/global.h"
+#include "Base/sql/databasemanager.h"
 
 #include "Base/actionmanager/action.h"
 #include "Base/actionmanager/actioncontainer.h"
 #include "Base/actionmanager/actionmanager.h"
-#include "../../constants.h"
+#include "Base/constants.h"
 
 #include "baseinfoedit.h"
 #include "databaseedit.h"

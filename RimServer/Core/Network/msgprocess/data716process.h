@@ -14,7 +14,7 @@
 class Database;
 
 #include "Network/head.h"
-#include "../../protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 
 #include <vector>
 #include <mutex>

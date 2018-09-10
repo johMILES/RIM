@@ -3,7 +3,7 @@
 #include "Network/netglobal.h"
 #include "Network/msgparse/msgparsefactory.h"
 #include "Network/head.h"
-#include "rsingleton.h"
+#include "Base/util/rsingleton.h"
 #include "Network/connection/tcpclient.h"
 
 RecvTextProcessThread::RecvTextProcessThread()

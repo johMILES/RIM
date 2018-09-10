@@ -4,13 +4,13 @@
 
 #include "Network/head.h"
 #include "Network/netglobal.h"
+#include "Base/global.h"
 #include "binary716_wrapfromat.h"
-#include "rsingleton.h"
-#include "global.h"
+#include "Base/util/rsingleton.h"
 
 #include <QDebug>
 
-#include "../../protocol/datastruct.h"
+#include "Base/protocol/datastruct.h"
 using namespace ParameterSettings;
 
 std::mutex QueryNodeMutex;

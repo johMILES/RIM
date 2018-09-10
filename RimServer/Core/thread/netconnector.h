@@ -14,8 +14,8 @@
 #include <QThread>
 #include <functional>
 
-#include "sql/database.h"
-#include "../protocol/datastruct.h"
+#include "Base/sql/database.h"
+#include "Base/protocol/datastruct.h"
 #include "../Network/head.h"
 
 class NetConnector;

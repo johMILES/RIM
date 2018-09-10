@@ -4,7 +4,7 @@
 #ifdef __LOCAL_CONTACT__
 
 #include "wraprule.h"
-#include "../../BD/bduser.h"
+#include "../3rdhead/bduser.h"
 
 namespace ServerNetwork{
 

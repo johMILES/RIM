@@ -1,6 +1,6 @@
 ﻿#include "connectiondockpanel.h"
 
-#include "../../constants.h"
+#include "Base/constants.h"
 #include "connectionwidget.h"
 
 #include <QDebug>

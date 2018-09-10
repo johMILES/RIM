@@ -1,17 +1,17 @@
 ﻿#include "bdtransmit.h"
-#include "Util/rlog.h"
+
 #include <QFileInfo>
+#include <functional>
+
+#include "Base/util/rlog.h"
+#include "3rdhead/bdcommanager.h"
 
 namespace ServerNetwork{
-
-BDTransmit *g_BDTransmit = NULL;
-std::shared_ptr<BDTransmit> g_BDTrans = NULL;
-static int m_count = 0;
 
 BDTransmit::BDTransmit() :
     BaseTransmit()
 {
-    g_BDTransmit = this;
+
 }
 
 BDTransmit::~BDTransmit()
@@ -29,19 +29,20 @@ QString BDTransmit::name()
     return "BDCom";
 }
 
-std::shared_ptr<BDTransmit> BDTransmit::instance()
+bool BDTransmit::initialize()
 {
-    m_count++;
-    if(g_BDTrans == NULL)
-    {
-        g_BDTrans = std::make_shared<BDTransmit>();
-    }
-    return g_BDTrans;
-}
+    QString path = QString::fromLocal8Bit("北斗协议.ini");
+    QFileInfo file(path);
 
-int BDTransmit::CreateCount()
-{
-    return m_count;
+    if(QFileInfo::exists(path))
+    {
+        int ret = BDCom_Init(file.absoluteFilePath().toLocal8Bit().data());
+        //TODO 20180910此处尚超应调整回调接口为std::function<void(int,char*,int)>,这样可以支持多种函数的回调。
+//        BDCom_BindRecv(std::bind(&BDTransmit::recvComData,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
+        //TODO 返回结果需要判断，不是直接的返回
+        return ret;
+    }
+    return false;
 }
 
 bool BDTransmit::startTransmit(SendUnit &unit)
@@ -85,31 +86,9 @@ bool BDTransmit::startRecv(char *recvBuff, int recvBuffLen, ByteArrayHandler rec
     return true;
 }
 
-bool BDTransmit::connect(const char *remoteIp, const unsigned short remotePort, int timeouts)
-{
-    QString path = QString::fromLocal8Bit("北斗协议.ini");
-    QFileInfo file(path);
-
-    if(QFileInfo::exists(path))
-    {
-        int ret = BDCom_Init(file.absoluteFilePath().toLocal8Bit().data());
-        BDCom_BindRecv(CallBack_RecvFun);
-        return ret;
-    }
-    return true;
-}
-
 bool BDTransmit::close()
 {
     return true;
-}
-
-void __stdcall CallBack_RecvFun(int CmdType, char *data, int size)
-{
-    if(g_BDTransmit)
-    {
-        g_BDTransmit->recvComData(CmdType,data,size);
-    }
 }
 
 void BDTransmit::recvComData(int CmdType, char *data, int size)

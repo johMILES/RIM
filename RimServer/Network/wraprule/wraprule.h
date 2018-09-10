@@ -14,8 +14,6 @@
 
 #include "../network_global.h"
 #include "../head.h"
-#include "../../BD/bdcommanager.h"
-#include "../../BD/bduser.h"
 
 namespace ServerNetwork{
 

@@ -17,7 +17,7 @@
 #include <memory>
 
 #include "Network/head.h"
-#include "Network/multitransmits/basetransmit.h"
+#include "Network/multitransmits/transmits.h"
 
 class SendTextProcessThread : public QThread
 {
@@ -36,7 +36,7 @@ private:
 private:
     bool runningFlag;
 
-    std::map<CommMethod,BaseTransmit_Ptr> transmits;
+    ServerNetwork::Transmits transmits;
 };
 
 #endif // SENDTEXTPROCESSTHREAD_H

@@ -5,13 +5,16 @@ CONFIG += ordered
 SUBDIRS += \
     Base \
     Network \
+    Plugin \
     Core
+
+TRANSLATIONS += $${TARGET}_zh_CN.ts
 
 win32-g++{
     QMAKE_CXXFLAGS_WARN_ON += -Wno-reorder
 }
 
-##在Server2003R2下运�win32 {
+## {
 #    QMAKE_LFLAGS_WINDOWS = /SUBSYSTEM:WINDOWS,5.01
 #    QMAKE_LFLAGS_CONSOLE = /SUBSYSTEM:CONSOLE,5.01
 

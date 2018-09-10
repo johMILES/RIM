@@ -1,7 +1,7 @@
 #include "connectionmonitormodel.h"
 
 #include <QDebug>
-#include "Util/scaleswitcher.h"
+#include "Base/util/scaleswitcher.h"
 
 ConnectionMonitorModel::ConnectionMonitorModel(QObject *parent):
     QAbstractTableModel(parent)

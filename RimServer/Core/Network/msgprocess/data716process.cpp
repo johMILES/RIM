@@ -8,18 +8,20 @@
 #include <QDebug>
 
 #include "../msgwrap/localmsgwrap.h"
-#include "rsingleton.h"
-#include "Network/connection/tcpclient.h"
-#include "Network/connection/seriesconnection.h"
+#include "../../sql/sqlprocess.h"
 #include "../../thread/netconnector.h"
 #include "../../thread/filesendqueuethread.h"
-#include "../../protocol/datastruct.h"
-#include "../../sql/sqlprocess.h"
-#include "global.h"
-#include "Util/rutil.h"
-#include "Util/rlog.h"
+#include "Network/connection/tcpclient.h"
+#include "Network/connection/seriesconnection.h"
 #include "Network/head.h"
-#include "../../broadcastnode.h"
+#include "Base/util/rsingleton.h"
+#include "Base/protocol/datastruct.h"
+#include "Base/global.h"
+#include "Base/others/broadcastnode.h"
+#include "Base/util/rutil.h"
+#include "Base/util/rlog.h"
+#include "Base/util/scaleswitcher.h"
+#include "messdispatch.h"
 
 using namespace ParameterSettings;
 using namespace ServerNetwork;
@@ -68,6 +70,7 @@ void Data716Process::processText(Database *db, int sockId, ProtocolPackage &data
                 }
             }
         });
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("%1 broadcast send data.").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(data.pack495.sourceAddr)));
         return;
     }
 
@@ -157,9 +160,11 @@ void Data716Process::processOuterData(Database *db, int sockId, ProtocolPackage 
                 }
             }else{
                 RLOG_ERROR("can't find destination node's parent node!");
+                RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Can't find destination node's [%1] parent node!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(data.pack495.destAddr)));
             }
         }else{
             RLOG_ERROR("destination node isn't in routing file!");
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Destination  node [%1] isn't in routing file!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(data.pack495.destAddr)));
         }
     }
 }
@@ -179,7 +184,7 @@ void Data716Process::processUserRegist(Database *db, int sockId, unsigned short 
     TcpClient * tmpClient = TcpClientManager::instance()->getClient(sockId);
     if(tmpClient){
 
-        qDebug()<<QString::number(sourceAddr).sprintf("UserRegist:0x%4x",sourceAddr)<<"_sockId:"<<sockId;
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Node [%1] log in.").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(sourceAddr)));
 
         tmpClient->setAccount(QString::number(sourceAddr));
         tmpClient->setOnLineState(STATUS_ONLINE);
@@ -188,6 +193,7 @@ void Data716Process::processUserRegist(Database *db, int sockId, unsigned short 
             std::for_each(historyMsg.begin(),historyMsg.end(),[&](ProtocolPackage & data){
                 RSingleton<LocalMsgWrap>::instance()->hanldeMsgProtcol(sockId,data);
             });
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Node [%1] pull history message.").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(sourceAddr)));
         }
     }
 }
@@ -203,7 +209,7 @@ void Data716Process::processUserUnRegist(Database *db, int sockId, unsigned shor
     TcpClient * tmpClient = TcpClientManager::instance()->getClient(sockId);
     if(tmpClient)
     {
-        qDebug()<<QString::number(sourceAddr).sprintf("UserUnRegist:0x%4x",sourceAddr);
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Node [%1] log out.").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(sourceAddr)));
         tmpClient->setOnLineState(STATUS_OFFLINE);
     }
 }
@@ -325,6 +331,7 @@ void Data716Process::processFileData(Database *db, int sockId, ProtocolPackage &
 
         if(desc->isRecvOver())
         {
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Recv file[%1] over!").arg(desc->fileName));
             int saveFileId = -1;
             if(RSingleton<SQLProcess>::instance()->add716File(db,desc,saveFileId))
             {
@@ -382,10 +389,12 @@ void Data716Process::processFileData(Database *db, int sockId, ProtocolPackage &
                                     }
                                 }
                             }else{
-                                RLOG_ERROR("can't find destination node parent node!");
+                                RLOG_ERROR("Can't find destination node parent node!");
+                                RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Can't find destination node [%1] parent node!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(data.pack495.destAddr)));
                             }
                         }else{
-                            RLOG_ERROR("destination node isn't in paraseting file!");
+                            RLOG_ERROR("Destination node isn't in routing file!");
+                            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Destination node [%1] isn't in routing file!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(data.pack495.destAddr)));
                         }
                     }
                 }
@@ -465,6 +474,9 @@ void Data716Process::cacheMsgProtocol(NodeServer * serverInfo, ProtocolPackage &
                                  std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
         std::thread connector(RunNetConnetor,func,serverInfo);
         connector.detach();
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Prepare establishing connection from [%1] to [%2] !").
+                                                               arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(RGlobal::G_RouteSettings->baseInfo.nodeId))
+                                                               .arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(serverInfo->nodeId)));
     }
 }
 
@@ -503,8 +515,10 @@ void Data716Process::respTextNetConnectResult(unsigned short nodeId,bool connect
 
             (*index).second.msgCache.clear();
             textServerCache.erase(index);
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Establishing connection with [%1] success!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(nodeId)));
         }else{
             (*index).second.connStats = SCS_ERR;
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Establishing connection with [%1] failed!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(nodeId)));
         }
     }
 }
@@ -558,6 +572,10 @@ void Data716Process::cacheFileProtocol(Database * db,NodeServer * serverInfo, Si
                                  ,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
         std::thread connector(RunNetConnetor,func,serverInfo);
         connector.detach();
+
+        RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Prepare establishing connection from [%1] to [%2] !").
+                                                               arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(RGlobal::G_RouteSettings->baseInfo.nodeId))
+                                                               .arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(serverInfo->nodeId)));
     }
 }
 
@@ -583,9 +601,11 @@ void Data716Process::respFileNetConnectResult(unsigned short nodeId, bool connec
 
             (*index).second.fileCache.clear();
             fileServerCache.erase(index);
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Establishing connection with [%1] success!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(nodeId)));
         }else{
             (*index).second.connStats = SCS_ERR;
             saveFile2Database((*index).second.fileCache);
+            RSingleton<MessDispatch>::instance()->onRecvRealRecord(QObject::tr("Establishing connection with [%1] failed!").arg(RSingleton<ScaleSwitcher>::instance()->fromDecToHex(nodeId)));
         }
     }
 }

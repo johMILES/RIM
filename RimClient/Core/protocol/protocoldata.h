@@ -17,7 +17,7 @@
 
 #include <QString>
 #include <QList>
-#include "../network/network_global.h"
+#include "Network/network_global.h"
 
 /*!
  * @brief 应用层数据传输结构
