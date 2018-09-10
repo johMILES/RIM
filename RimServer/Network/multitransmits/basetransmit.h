@@ -15,7 +15,6 @@
 
 #include <functional>
 #include <memory>
-#include <QByteArray>
 
 namespace ServerNetwork{
 

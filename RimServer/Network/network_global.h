@@ -18,8 +18,10 @@ namespace ServerNetwork {
 class IocpContext;
 }
 
+#include "head.h"
+
 typedef int(*Func)(const char *,const int);
-typedef std::function<void(QByteArray &)> ByteArrayHandler;
+typedef std::function<void(RecvUnit &)> ByteArrayHandler;
 typedef std::function<bool(int,ServerNetwork::IocpContext *,DWORD &)> IocpContextSender;
 typedef std::function<int(int,const char*,int)> ByteSender;
 

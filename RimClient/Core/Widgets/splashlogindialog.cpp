@@ -397,13 +397,6 @@ void SplashLoginDialog::prepareNetConnect()
 void SplashLoginDialog::respTextConnect(bool flag)
 {
     MQ_D(SplashLoginDialog);
-    if(!flag){
-        RSingleton<Subject>::instance()->notify(MESS_TEXT_NET_ERROR);
-        RLOG_ERROR("Connect to server %s:%d error!",Global::G_GlobalConfigFile->netSettings.textServer.ip.toLocal8Bit().data(),Global::G_GlobalConfigFile->netSettings.textServer.port);
-        RMessageBox::warning(this,QObject::tr("Warning"),QObject::tr("Connect to text server error!"),RMessageBox::Yes);
-    }else{
-        RSingleton<Subject>::instance()->notify(MESS_TEXT_NET_OK);
-    }
 
     if(G_User == nullptr){
         UserBaseInfo baseInfo;
@@ -443,15 +436,6 @@ void SplashLoginDialog::respTextConnect(bool flag)
                              this,SLOT(dealQuitApp()));
         }
 
-        if(flag)
-        {
-            d->mainDialog->setLogInState(STATUS_ONLINE);
-        }
-        else
-        {
-            d->mainDialog->setLogInState(STATUS_OFFLINE);
-        }
-
 #ifndef __LOCAL_CONTACT__
         if(!G_User->isFileOnLine()){
             Global::G_GlobalConfigFile->netSettings.connectedFileIpPort = Global::G_GlobalConfigFile->netSettings.fileServer;
@@ -471,6 +455,15 @@ void SplashLoginDialog::respTextConnect(bool flag)
         }
 
         hide();
+
+        if(flag)
+        {
+            d->mainDialog->setLogInState(STATUS_ONLINE);
+        }
+        else
+        {
+            d->mainDialog->setLogInState(STATUS_OFFLINE);
+        }
         d->mainDialog->show();
         d->mainDialog->raise();//FIXME LYS-20180719 修复窗口显示被遮挡问题
 
@@ -479,6 +472,14 @@ void SplashLoginDialog::respTextConnect(bool flag)
         {
             d->m_pTimer_TestSelf->start(1000*10);
         }
+    }
+
+    if(!flag){
+        RSingleton<Subject>::instance()->notify(MESS_TEXT_NET_ERROR);
+        RLOG_ERROR("Connect to server %s:%d error!",Global::G_GlobalConfigFile->netSettings.textServer.ip.toLocal8Bit().data(),Global::G_GlobalConfigFile->netSettings.textServer.port);
+        RMessageBox::warning(this,QObject::tr("Warning"),QObject::tr("Connect to text server error!"),RMessageBox::Yes);
+    }else{
+        RSingleton<Subject>::instance()->notify(MESS_TEXT_NET_OK);
     }
     enableInput(true);
 }

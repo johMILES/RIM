@@ -21,6 +21,7 @@
 
 #ifdef __LOCAL_CONTACT__
 #include "../wraprule/tcp495datapacketrule.h"
+#include "../wraprule/bd_wraprule.h"
 #endif
 
 namespace ServerNetwork {
@@ -46,7 +47,8 @@ private:
     SharedIocpData * serverSharedData;
 
 #ifdef __LOCAL_CONTACT__
-    std::shared_ptr<TCP495DataPacketRule> dataPacketRule;
+    std::shared_ptr<TCP495DataPacketRule>   dataPacketRule;
+    std::shared_ptr<BD_WrapRule>            bd_dataPacketRule;
 #else
     std::shared_ptr<TCPDataPacketRule> dataPacketRule;
 #endif

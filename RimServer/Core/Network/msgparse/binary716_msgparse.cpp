@@ -8,6 +8,7 @@
 #include "Base/protocol/datastruct.h"
 #include "../msgprocess/data716process.h"
 #include "Network/wraprule/tcp_wraprule.h"
+#include "Network/wraprule/bd_wraprule.h"
 #include "Network/wraprule/qdb21_wraprule.h"
 #include "Network/connection/tcpclient.h"
 #include "Base/protocol/protocoldata.h"
@@ -109,6 +110,12 @@ void Binary716_MsgParse::processData(Database *db, const RecvUnit &unit)
 
             RSingleton<Data716Process>::instance()->processFileData(db,unit.extendData.sockId,packData);
         }
+    }
+    else if(unit.extendData.method == C_COM)
+    {
+        USET_TXA t_txa;
+        RSingleton<ServerNetwork::BD_WrapRule>::instance()->unwrap_TXA(unit.data,t_txa);
+        //TODO:跳转到节点服务器 20180907
     }
 }
 
