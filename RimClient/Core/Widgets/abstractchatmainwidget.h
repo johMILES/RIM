@@ -74,6 +74,7 @@ public:
     void setChatChannel(QWebChannel *channel);
     void openTargetFile(QString filePath);
     void openTargetFolder(QString filePath);
+    void setMsgState(QString serialNo);
 
 protected:
     void keyPressEvent(QKeyEvent *e);
@@ -144,6 +145,8 @@ private:
     void prependChatNotice(QString content,NoticeType type = NONOTICE);
     void appendChatTimeNote(QDateTime content,TimeFormat format = TIME);
     void prependChatTimeNote(QDateTime content,TimeFormat format = TIME);
+    void sendMsgState2Server(QString otherId, QString stateId, QString serialNo);
+
 };
 
 #endif // ABSTRACTCHATMAINWIDGET_H

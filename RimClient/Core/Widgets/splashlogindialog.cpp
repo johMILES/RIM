@@ -387,7 +387,6 @@ void SplashLoginDialog::closeWindow()
 void SplashLoginDialog::prepareNetConnect()
 {
     MQ_D(SplashLoginDialog);
-
     Q_UNUSED(d);
     Global::G_GlobalConfigFile->netSettings.connectedTextIpPort = Global::G_GlobalConfigFile->netSettings.textServer;
     TextNetConnector::instance()->connect();

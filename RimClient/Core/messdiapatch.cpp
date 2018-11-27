@@ -1,5 +1,5 @@
 ﻿#include "messdiapatch.h"
-
+#include <QDebug>
 MessDiapatch * MessDiapatch::dispatch = NULL;
 
 MessDiapatch::MessDiapatch(QObject *parent) : QObject(parent)

@@ -116,6 +116,7 @@ protected:
 
 void AbstractChatMainWidgetPrivate::initWidget()
 {
+    qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "9223");
     //主窗口水平布局
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->setContentsMargins(6,0,0,0);
@@ -476,6 +477,25 @@ void AbstractChatMainWidget::openTargetFolder(QString filePath)
     RUtil::showInExplorer(filePath);
 }
 
+/*!
+ * @brief 将从聊天界面获取的流水号传至服务器，并更新聊天窗口消息状态
+ * @param serialNo  流水号
+ */
+void AbstractChatMainWidget::setMsgState(QString serialNo)
+{
+    bool isConnected = Global::G_GlobalConfigFile->netSettings.connectedTextIpPort.isConnected();
+    if(isConnected)
+    {
+        //更新数据库，并将流水号和目标客户端账号和状态id发送给服务器
+        sendMsgState2Server("","",serialNo);
+
+    }
+    else
+    {
+        return;
+    }
+}
+
 void AbstractChatMainWidget::keyPressEvent(QKeyEvent *e)
 {
     MQ_D(AbstractChatMainWidget);
@@ -558,7 +578,6 @@ void AbstractChatMainWidget::sendMsg(bool flag)
 {
     MQ_D(AbstractChatMainWidget);
     Q_UNUSED(flag);
-
     if(!d->chatInputArea->isVaiablePlaintext())
     {
         return ;
@@ -597,7 +616,7 @@ void AbstractChatMainWidget::sendMsg(QString str)
     t_unit.nickName = G_User->BaseInfo().nickName;
     t_unit.dtime = RUtil::currentMSecsSinceEpoch();
     t_unit.dateTime = QDateTime::currentDateTime().toString("yyyyMMdd hh:mm:ss");
-    t_unit.msgstatus = ProtocolType::MSG_NOTREAD;
+    t_unit.msgstatus = ProtocolType::MSG_STATE_WAITSEND;
 #ifdef __LOCAL_CONTACT__
     t_unit.serialNo = SERIALNO_FRASH;
     t_unit.contents = str;
@@ -1151,6 +1170,7 @@ void AbstractChatMainWidget::setFontIconFilePath()
 {
     MQ_D(AbstractChatMainWidget);
     QString t_currentPath = QDir::currentPath();
+
     t_currentPath = QDir::fromNativeSeparators(t_currentPath);
     QString t_setLinkFontHerfScript = QString("setAbsoulteFontIconHerf('%1')").arg(t_currentPath);
     d->view->page()->runJavaScript(t_setLinkFontHerfScript);
@@ -1320,7 +1340,6 @@ void AbstractChatMainWidget::appendMsgRecord(const TextRequest &recvMsg, MsgTarg
     mesObj.insert("stateID",recvMsg.textId);
     QString mesJson = QString(QJsonDocument(mesObj).toJson()).replace("\n","");
     t_showMsgScript = QString("appendMesRecord('%1')").arg(mesJson);
-
     d->view->page()->runJavaScript(t_showMsgScript);
 }
 
@@ -1381,9 +1400,10 @@ void AbstractChatMainWidget::appendMsgRecord(const ChatInfoUnit &unitMsg, MsgTar
     if(unitMsg.contentType == MSG_TEXT_TEXT)
     {
         QString stateID = QString::number(unitMsg.serialNo);
-        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_NOTREAD) ? UNREAD : MARKREAD;
-
+        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
+        int accountId = unitMsg.accountId.toInt();
         QJsonObject mesObj;
+        mesObj.insert("sourceID",accountId);               //消息客户端来源
         mesObj.insert("target",source);
         mesObj.insert("content",t_localHtml);
         mesObj.insert("head",t_headPath);
@@ -1496,7 +1516,7 @@ void AbstractChatMainWidget::prependMsgRecord(const ChatInfoUnit &unitMsg, MsgTa
     if(unitMsg.contentType == MSG_TEXT_TEXT)
     {
         QString stateID = QString::number(unitMsg.serialNo);
-        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_NOTREAD) ? UNREAD : MARKREAD;
+        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
 
         QJsonObject mesObj;
         mesObj.insert("target",source);
@@ -1818,4 +1838,15 @@ void AbstractChatMainWidget::prependChatTimeNote(QDateTime content, AbstractChat
     }
     t_showTimeScript = QString("prependMessageTime('%1')").arg(t_curMsgTime);
     d->view->page()->runJavaScript(t_showTimeScript);
+}
+
+/*!
+ * @brief 将聊天界面的消息状态发送至服务器
+ * @param otherId 对方客户端id
+ * @param stateId 消息状态
+ * @param serialNo 该条消息流水号
+ */
+void AbstractChatMainWidget::sendMsgState2Server(QString otherId, QString stateId ,QString serialNo)
+{
+
 }

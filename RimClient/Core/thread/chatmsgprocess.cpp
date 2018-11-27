@@ -94,6 +94,7 @@ void ChatMsgProcess::appendC2CQueryTask(QString otherID, uint begin, uint count)
  */
 void ChatMsgProcess::appendC2CMoreQueryTask(QString otherID, uint begin, uint count)
 {
+    qDebug()<<"count"<<count;
     TaskQueue t_newQueryTask;
     ChatInfoUnit t_unit;
     t_unit.accountId = G_User->BaseInfo().accountId;
@@ -353,10 +354,12 @@ bool ChatMsgProcess::queryC2CTaskMsg(QString otherID,uint start,uint count)
 
 bool ChatMsgProcess::updateC2CTaskMsgStatus(QString otherID, ushort serialNo)
 {
+    qDebug()<<otherID<<"otherId"<<"\n"<<serialNo<<"serialNo";
+
     DataTable::RChatRecord rcr;
     rcr.initTable("rchatrecord_"+otherID);
     RUpdate rpd(rcr.table);
-    rpd.update(rcr.table,{{rcr.status,MSG_READYREAD}})
+    rpd.update(rcr.table,{{rcr.status,MSG_STATE_READYREAD}})
             .enableAlias(false)
             .createCriteria()
             .add(Restrictions::eq(rcr.table,rcr.accountId,G_User->BaseInfo().accountId))

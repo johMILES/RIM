@@ -60,7 +60,7 @@ void UserClient::procRecvContent(TextRequest & response)
         t_unit.dtime = RUtil::currentMSecsSinceEpoch(); //FIXME LYS-20180710
 #endif
         t_unit.contents = response.sendData;
-        t_unit.msgstatus = ProtocolType::MSG_NOTREAD;
+        t_unit.msgstatus = ProtocolType::MSG_STATE_WAITSEND;
         RSingleton<ChatMsgProcess>::instance()->appendC2CStoreTask(simpleUserInfo.accountId,t_unit);
 
         //TODO 20180423【2】将信息添加至历史会话列表

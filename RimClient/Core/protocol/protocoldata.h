@@ -150,9 +150,14 @@ enum MsgCommand
  */
 
 enum MsgStatus{
-    MSG_READYREAD       = 0x00 ,    /*!< 信息已读 */
-    MSG_NOTREAD         = 0x01 ,    /*!< 信息未读 */
-    MSG_ARRIVE_SERVER   = 0x02 ,    /*!< 信息已到达服务器 */
+    MSG_STATE_READYREAD     = 0x00 ,    /*!< 信息已读 == 阅办 */
+    MSG_STATE_WAITSEND ,                /*!< 信息等待发送 */
+    MSG_STATE_SENDING  ,                /*!< 信息正在发送中 */
+    MSG_STATE_SENDERROR ,               /*!< 信息发送失败 */
+    MSG_STATE_SENDED ,                  /*!< 信息已发送 */
+    MSG_STATE_REPLY ,                   /*!< 信息已回执 */
+    MSG_STATE_REDADYDEAL ,              /*!< 信息已处理（业务相关）*/
+
 };
 
 /*!

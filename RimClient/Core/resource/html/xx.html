@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -19,8 +19,7 @@
             height:100%;
         }
         .colorChanged{
-            margin:1px;
-           background-color:#C1FFC1 !important;
+           background-color:green !important;
         }
         .chat_titile{
             height: 30px;
@@ -580,11 +579,11 @@
                 stateSpan.setAttribute('id',stateID);
                 if(readState === 0)
                 {
-                    stateSpan.innerHTML = '未阅办'
+                    stateSpan.innerHTML = '未读'
                 }
                 else
                 {
-                    stateSpan.innerHTML = '已阅办'
+                    stateSpan.innerHTML = '已读'
                 }
             }
 
@@ -686,32 +685,18 @@
                     stateSpan.innerHTML = '已送达'
                 }
             }
-			else
-			{
-				stateSpan = document.createElement('span');
-				stateSpan.setAttribute('class','stateSpan left');
-				stateSpan.setAttribute('id',stateID);
-				if(readState === 0)
-				{
-					stateSpan.innerHTML = '未阅办';
-				}
-				else
-				{
-					stateSpan.innerHTML = '已阅办';
-				}
-			}
 
             //添加内容
             newDiv.appendChild(avatarContainer);
             newDiv.appendChild(newDialog);
-         
-			newDiv.appendChild(stateSpan);
-			
+            if(messageTarget === 0)
+            {
+                newDiv.appendChild(stateSpan);
+            }
             var div = document.createElement('div');
             div.style = 'clear:both';
             content_container.insertBefore(div,content_container.childNodes[0]);
             content_container.insertBefore(newDiv,content_container.childNodes[0]);
-			
             if(messageTarget === 0)
             {
                 newDialog.className = 'msgContent right dialog_me';
@@ -1443,7 +1428,7 @@
                     targetS.parentNode.parentNode.appendChild(addStateSpan);*/
                     targetState.innerHTML = '已阅办';
                     targetStateId = targetState.getAttribute('id');
-                    bridge.getMsgId(targetStateId);
+
                 }
             }
         }

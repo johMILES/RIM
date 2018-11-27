@@ -63,6 +63,16 @@ void Document::openFolder(const QString &filePath)
 {
     chatWidget->openTargetFolder(filePath);
 }
+/*!
+ * @brief 获取聊天窗口点击消息的流水号，以及对方客户端设备id
+ * @param id 获取消息的唯一id
+ */
+QString Document::getMsgId(const QString serialNo)
+{
+    qDebug()<<serialNo<<"serialNo";
+    chatWidget->setMsgState(serialNo);
+    return serialNo;
+}
 
 void Document::setUi(AbstractChatMainWidget *ui)
 {

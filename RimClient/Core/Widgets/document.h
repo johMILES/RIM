@@ -26,6 +26,7 @@ public slots:
     QString getTargetDir(const QString &path);
     void openFile(const QString &filePath);
     void openFolder(const QString &folderPath);
+    QString getMsgId(const QString serialNo);
 
 signals:
     void sendText(const QString &text);
