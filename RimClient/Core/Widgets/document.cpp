@@ -69,7 +69,6 @@ void Document::openFolder(const QString &filePath)
  */
 QString Document::getMsgId(const QString serialNo)
 {
-    qDebug()<<serialNo<<"serialNo";
     chatWidget->setMsgState(serialNo);
     return serialNo;
 }

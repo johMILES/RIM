@@ -101,6 +101,31 @@
         .stateSpan.notRead {
             color:red;
         }
+        .msgContent[data-mes-state='readyRead'] {
+            background: #fff !important;
+            border: 1px solid #000;
+        }
+        .msgContent[data-mes-state='waitSend'] {
+            background: #4EA9E9 !important;
+        }
+        .msgContent[data-mes-state='sending'] {
+            background: #2866BD !important;
+        }
+        .msgContent[data-mes-state='sendError'] {
+            background: #A6D4F2 !important;
+        }
+        .msgContent[data-mes-state='sended'] {
+            background: #C1FFC1 !important;
+        }
+        .msgContent[data-mes-state='reply'] {
+            background: #cccccc !important;
+        }
+        .msgContent[data-mes-state='readyDeal'] {
+            background: #CE5146 !important;
+        }
+        .msgContent[data-mes-state='recevied'] {
+            background: #777777 !important;
+        }
         /*头像样式*/
         img.avatarPic{
             float: right;
@@ -390,6 +415,7 @@
     <script type="text/javascript">
     var bridge;
     var targetStateId;
+    var scrollLoadFlag = false;
     window.onload=function(){
         new QWebChannel(qt.webChannelTransport,function(channel)
         {
@@ -564,13 +590,24 @@
                 stateSpan = document.createElement('span');
                 stateSpan.setAttribute('class','stateSpan');
                 stateSpan.setAttribute('id',stateID);
-                if(readState === 0)
-                {
-                    stateSpan.innerHTML = '未送达'
-                }
-                else
-                {
-                    stateSpan.innerHTML = '已送达'
+                if(readState === 0) {
+                    stateSpan.innerHTML = '已阅办';
+                    stateSpan.dataset.mesState = '0';
+                } else if(readState === 1) {
+                    stateSpan.innerHTML = '等待发送';
+                    stateSpan.dataset.mesState = '1';
+                } else if(readState === 2) {
+                    stateSpan.innerHTML = '正在发送';
+                    stateSpan.dataset.mesState = '2';
+                } else if(readState === 3) {
+                    stateSpan.innerHTML = '发送失败';
+                    stateSpan.dataset.mesState = '3';
+                } else if(readState === 4) {
+                    stateSpan.innerHTML = '已发送';
+                    stateSpan.dataset.mesState = '4';
+                } else if(readState === 5) {
+                    stateSpan.innerHTML = '已回执';
+                    stateSpan.dataset.mesState = '5';
                 }
             }
             else
@@ -578,13 +615,15 @@
                 stateSpan = document.createElement('span');
                 stateSpan.setAttribute('class','stateSpan left');
                 stateSpan.setAttribute('id',stateID);
-                if(readState === 0)
-                {
-                    stateSpan.innerHTML = '未阅办'
-                }
-                else
-                {
-                    stateSpan.innerHTML = '已阅办'
+                if(readState === 0) {
+                    stateSpan.innerHTML = '已阅办';
+                    stateSpan.dataset.mesState = '0';
+                } else if(readState === 6) {
+                    stateSpan.innerHTML = '已处理';
+                    stateSpan.dataset.mesState = '6';
+                } else if(readState === 7) {
+                    stateSpan.innerHTML = '已接收';
+                    stateSpan.dataset.mesState = '7';
                 }
             }
 
@@ -620,6 +659,58 @@
 
             newDiv.scrollIntoView(false);
         }
+    }
+
+    // 更新消息接收状态
+    function updateMesState(mesJson) {
+        let mesId, mesState;
+        let obj = JSON.parse(mesJson);
+        mesId = obj.stateID;
+        mesState = obj.state;
+        console.log(obj.state)
+        console.log(typeof(obj.state))
+        if(mesId) {
+            let targetSpan = document.getElementById(mesId);
+            let targetMesCont = targetSpan.parentNode.getElementsByClassName('msgContent')[0];
+            if(targetMesCont !== undefined) {
+                if(mesState === 0) {
+                    targetMesCont.dataset.mesState = 'readyRead';
+                    targetSpan.dataset.mesState = '0';
+                    targetSpan.innerHTML = '已阅办';
+                } else if(mesState === 1) {
+                    targetMesCont.dataset.mesState = 'waitSend';
+                    targetSpan.dataset.mesState = '1';
+                    targetSpan.innerHTML = '等待发送';
+                } else if(mesState === 2) {
+                    targetMesCont.dataset.mesState = 'sending';
+                    targetSpan.dataset.mesState = '2';
+                    targetSpan.innerHTML = '正在发送';
+                } else if(mesState === 3) {
+                    targetMesCont.dataset.mesState = 'sendError';
+                    targetSpan.dataset.mesState = '3';
+                    targetSpan.innerHTML = '发送失败';
+                } else if(mesState === 4) {
+                    targetMesCont.dataset.mesState = 'sended';
+                    targetSpan.dataset.mesState = '4';
+                    targetSpan.innerHTML = '已发送';
+                } else if(mesState === 5) {
+                    targetMesCont.dataset.mesState = 'reply';
+                    targetSpan.dataset.mesState = '5';
+                    targetSpan.innerHTML = '已回执';
+                } else if(mesState === 6) {
+                    targetMesCont.dataset.mesState = 'readyDeal';
+                    targetSpan.dataset.mesState = '6';
+                    targetSpan.innerHTML = '已处理';
+                } else if(mesState === 7) {
+                    targetMesCont.dataset.mesState = 'recevied';
+                    targetSpan.dataset.mesState = '7';
+                    targetSpan.innerHTML = '已接收';
+                }
+            }
+        }
+
+
+
     }
 
     //向最前一条消息记录插入新的消息记录
@@ -704,14 +795,14 @@
             //添加内容
             newDiv.appendChild(avatarContainer);
             newDiv.appendChild(newDialog);
-         
+
 			newDiv.appendChild(stateSpan);
-			
+
             var div = document.createElement('div');
             div.style = 'clear:both';
             content_container.insertBefore(div,content_container.childNodes[0]);
             content_container.insertBefore(newDiv,content_container.childNodes[0]);
-			
+
             if(messageTarget === 0)
             {
                 newDialog.className = 'msgContent right dialog_me';
@@ -1412,39 +1503,40 @@
     }
 
     var scrollFunc = function (e) {
-        e = e || window.event; 
+        e = e || window.event;
 
         var contentDiv = document.getElementById('content');
+        if(document.getElementsByClassName('dialogContainer') !== undefined) {
+            var scrollTopElement = document.getElementsByClassName('dialogContainer')[0]
+        }
         if(!contentDiv)
             return;
-        if (contentDiv. scrollTop === 0 && e.wheelDelta >= 120 )
+        if (contentDiv.scrollTop === 0 && e.wheelDelta >= 120 )
         {
             //当滚动条在顶部后鼠标滚轮滚动
-            bridge.getMoreRecord();
+            if(scrollLoadFlag !== true) {
+                scrollLoadFlag = true;
+                bridge.getMoreRecord();
+                if(scrollTopElement) {
+                    scrollTopElement.scrollIntoView()
+                }
+            }
         }
     }
-    //点击阅办
+
+    function setScrollFlag() {
+        scrollLoadFlag = false;
+    }
+
+    //点击获取流水号id
     document.getElementById('content').addEventListener('click', function(ev) {
         var targetS = ev.target;
         if(hasClass(targetS, 'textMesContainer')){
             if(hasClass(targetS.parentNode, 'left')){
-                if(!hasClass(targetS.parentNode, 'colorChanged')) {
-                    addClass(targetS.parentNode, 'colorChanged');
-                    /*var addStateSpan = document.createElement('span');
-                    var checkStateSpan = targetS.parentNode.parentNode.getElementsByClassName('stateSpan');
-                    var aass = checkStateSpan[0];
-                    if(checkStateSpan !== undefined && checkStateSpan.length > 0 ){
-                        return
-                    }
-                    addStateSpan.innerHTML = '已阅办';*/
-                    var targetState = targetS.parentNode.parentNode.getElementsByClassName('stateSpan')[0];
-                    /*addClass(addStateSpan, 'stateSpan');
-                    addClass(addStateSpan, 'left');
-                    targetS.parentNode.parentNode.appendChild(addStateSpan);*/
-                    targetState.innerHTML = '已阅办';
-                    targetStateId = targetState.getAttribute('id');
-                    bridge.getMsgId(targetStateId);
-                }
+                var targetState = targetS.parentNode.parentNode.getElementsByClassName('stateSpan')[0];
+                targetStateId = targetState.getAttribute('id');
+                var nowState = targetState.getAttribute('data-mes-state');
+                bridge.getMsgId(targetStateId);
             }
         }
     })

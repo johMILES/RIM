@@ -157,7 +157,7 @@ enum MsgStatus{
     MSG_STATE_SENDED ,                  /*!< 信息已发送 */
     MSG_STATE_REPLY ,                   /*!< 信息已回执 */
     MSG_STATE_REDADYDEAL ,              /*!< 信息已处理（业务相关）*/
-
+    MSG_STATE_RECEVIED                  /*!< 信息已接受 */
 };
 
 /*!

@@ -40,8 +40,14 @@ public:
     };
     enum MsgReadState
     {
-        UNREAD,     //未读
-        MARKREAD    //已读
+        READYREAD = 0x00,     /*!< 信息已读 == 阅办 */
+        WATISEND,      /*!< 信息等待发送  */
+        SENDING,       /*!< 信息正在发送中  */
+        SENDERROR,     /*!< 信息发送失败 */
+        SENDED,        /*!< 信息已发送 */
+        REPLY,         /*!< 信息已回执 */
+        READYDEAL,      /*!< 信息已处理（业务相关）*/
+        RECEVIED ,       /*! <信息已接受 */
     };
     enum TimeFormat
     {
@@ -145,8 +151,8 @@ private:
     void prependChatNotice(QString content,NoticeType type = NONOTICE);
     void appendChatTimeNote(QDateTime content,TimeFormat format = TIME);
     void prependChatTimeNote(QDateTime content,TimeFormat format = TIME);
-    void sendMsgState2Server(QString otherId, QString stateId, QString serialNo);
-
+    void sendMsgState2Server(QString otherId, QString state, QString serialNo);
+    void updateRecvMsgState(int state, QString serialNo);
 };
 
 #endif // ABSTRACTCHATMAINWIDGET_H

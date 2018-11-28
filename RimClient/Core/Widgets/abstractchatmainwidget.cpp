@@ -55,7 +55,16 @@
 #include "actionmanager/actionmanager.h"
 #include "Widgets/textedit/simpletextedit.h"
 #include "Network/msgprocess/format495function.h"
+#include "../sql/database.h"
+#include "../sql/rpersistence.h"
+#include "../sql/datatable.h"
+#include "../global.h"
+#include "../user/user.h"
 
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlDriver>
+#include <QVariant>
 #define CHAT_MIN_WIDTH 450
 #define CHAT_MIN_HEIGHT 500
 #define CHAT_TOOL_HEIGHT 30
@@ -439,6 +448,9 @@ void AbstractChatMainWidget::updateMsgRecord()
     MQ_D(AbstractChatMainWidget);
 
     RSingleton<ChatMsgProcess>::instance()->appendC2CMoreQueryTask(d->m_userInfo.accountId,d->m_recordCount,25);
+    QString t_javaScript = QString("");
+    t_javaScript = QString("setScrollFlag()");
+    d->view->page()->runJavaScript(t_javaScript);
 }
 
 /*!
@@ -483,12 +495,13 @@ void AbstractChatMainWidget::openTargetFolder(QString filePath)
  */
 void AbstractChatMainWidget::setMsgState(QString serialNo)
 {
+    MQ_D(AbstractChatMainWidget);
     bool isConnected = Global::G_GlobalConfigFile->netSettings.connectedTextIpPort.isConnected();
     if(isConnected)
     {
-        //更新数据库，并将流水号和目标客户端账号和状态id发送给服务器
+        //TODOsh
         sendMsgState2Server("","",serialNo);
-
+        updateRecvMsgState(ProtocolType::MSG_STATE_READYREAD,serialNo);
     }
     else
     {
@@ -894,6 +907,7 @@ void AbstractChatMainWidget::recvTextChatMsg(const TextRequest &msg)
     unit.contents = msg.sendData;
     unit.dtime = msg.timeStamp;
     unit.contentType = msg.msgCommand;
+    unit.serialNo = msg.textId.toUShort();
     appendMsgRecord(unit,RECV);
 }
 
@@ -1336,7 +1350,7 @@ void AbstractChatMainWidget::appendMsgRecord(const TextRequest &recvMsg, MsgTarg
     mesObj.insert("target",RECV);
     mesObj.insert("content",t_localHtml);
     mesObj.insert("head",t_headPath);
-    mesObj.insert("state",UNREAD);
+    mesObj.insert("state",SENDED);
     mesObj.insert("stateID",recvMsg.textId);
     QString mesJson = QString(QJsonDocument(mesObj).toJson()).replace("\n","");
     t_showMsgScript = QString("appendMesRecord('%1')").arg(mesJson);
@@ -1400,10 +1414,37 @@ void AbstractChatMainWidget::appendMsgRecord(const ChatInfoUnit &unitMsg, MsgTar
     if(unitMsg.contentType == MSG_TEXT_TEXT)
     {
         QString stateID = QString::number(unitMsg.serialNo);
-        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
-        int accountId = unitMsg.accountId.toInt();
+        //int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
+        int t_readState = 0;
+        switch (unitMsg.msgstatus) {
+            case ProtocolType::MSG_STATE_WAITSEND:
+            {
+                t_readState = (source == RECV) ? RECEVIED : SENDERROR;
+            }
+            break;
+            case ProtocolType::MSG_STATE_READYREAD:
+            break;
+            case ProtocolType::MSG_STATE_SENDING:
+            break;
+            case ProtocolType::MSG_STATE_SENDERROR:
+            {
+                if(source == SEND)
+                {
+                    t_readState = SENDERROR;
+                }
+            }
+            break;
+            case ProtocolType::MSG_STATE_SENDED:
+            break;
+            case ProtocolType::MSG_STATE_REPLY:
+            break;
+            case ProtocolType::MSG_STATE_REDADYDEAL:
+            break;
+        default:
+            break;
+        }
+
         QJsonObject mesObj;
-        mesObj.insert("sourceID",accountId);               //消息客户端来源
         mesObj.insert("target",source);
         mesObj.insert("content",t_localHtml);
         mesObj.insert("head",t_headPath);
@@ -1453,7 +1494,7 @@ void AbstractChatMainWidget::prependMsgRecord(const TextRequest &recvMsg, MsgTar
     mesObj.insert("target",RECV);
     mesObj.insert("content",t_localHtml);
     mesObj.insert("head",t_headPath);
-    mesObj.insert("state",UNREAD);
+    mesObj.insert("state",RECEVIED);
     mesObj.insert("stateID",recvMsg.textId);
     QString mesJson = QString(QJsonDocument(mesObj).toJson()).replace("\n","");
     t_showMsgScript = QString("prependMesRecord('%1')").arg(mesJson);
@@ -1516,8 +1557,42 @@ void AbstractChatMainWidget::prependMsgRecord(const ChatInfoUnit &unitMsg, MsgTa
     if(unitMsg.contentType == MSG_TEXT_TEXT)
     {
         QString stateID = QString::number(unitMsg.serialNo);
-        int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
-
+        //int t_readState = (unitMsg.msgstatus == ProtocolType::MSG_STATE_WAITSEND) ? UNREAD : MARKREAD;
+        int t_readState = 0;
+        switch (unitMsg.msgstatus) {
+            case ProtocolType::MSG_STATE_WAITSEND:
+            {
+                if(source == RECV)
+                {
+                    t_readState = RECEVIED;
+                }
+                else
+                {
+                    t_readState = SENDED;
+                }
+            }
+            break;
+            case ProtocolType::MSG_STATE_READYREAD:
+            break;
+            case ProtocolType::MSG_STATE_SENDING:
+            break;
+            case ProtocolType::MSG_STATE_SENDERROR:
+            {
+                if(source == SEND)
+                {
+                    t_readState = SENDERROR;
+                }
+            }
+            break;
+            case ProtocolType::MSG_STATE_SENDED:
+            break;
+            case ProtocolType::MSG_STATE_REPLY:
+            break;
+            case ProtocolType::MSG_STATE_REDADYDEAL:
+            break;
+        default:
+            break;
+        }
         QJsonObject mesObj;
         mesObj.insert("target",source);
         mesObj.insert("content",t_localHtml);
@@ -1846,7 +1921,25 @@ void AbstractChatMainWidget::prependChatTimeNote(QDateTime content, AbstractChat
  * @param stateId 消息状态
  * @param serialNo 该条消息流水号
  */
-void AbstractChatMainWidget::sendMsgState2Server(QString otherId, QString stateId ,QString serialNo)
+void AbstractChatMainWidget::sendMsgState2Server(QString otherId, QString state ,QString serialNo)
 {
+    MQ_D(AbstractChatMainWidget);
+}
 
+/*!
+ * @brief 更新聊天信息显示状态，将信息的状态置为已阅办等。
+ * @param stateId 消息状态
+ * @param serialNo 流水号
+ */
+void AbstractChatMainWidget::updateRecvMsgState(int state, QString serialNo)
+{
+     MQ_D(AbstractChatMainWidget);
+
+     QString t_showMsgStateScript = QString("");
+     QJsonObject mesObj;
+     mesObj.insert("state",state);
+     mesObj.insert("stateID",serialNo);
+     QString mesJson = QString(QJsonDocument(mesObj).toJson()).replace("\n","");
+     t_showMsgStateScript = QString("updateMesState('%1')").arg(mesJson);
+     d->view->page()->runJavaScript(t_showMsgStateScript);
 }

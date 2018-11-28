@@ -433,7 +433,7 @@ const char ChatFormatType_Image[] = "Image";
  */
 struct ChatInfoUnit{
 
-    ChatInfoUnit ():contentType(MSG_TEXT_TEXT){
+    ChatInfoUnit ():contentType(MSG_TEXT_TEXT),serialNo(0){
 
     }
     QString id;

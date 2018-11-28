@@ -41,6 +41,7 @@ protected:
         q_ptr(q)
     {
         initWidget();
+        //RSingleton<AbstractChatMainWidget>::instance()->close();  /*! 预处理启动抽象类聊天界面 */
         windowId = RUtil::UUID();
         isLoadFinished = false;
     }
