@@ -273,7 +273,6 @@ HistoryMsgRecord::HistoryMsgRecord(QWidget *parent) :
 {
     setAttribute(Qt::WA_DeleteOnClose);
     setMinimumSize(HISTORY_MIN_WIDTH,HISTORY_MIN_HEIGHT);
-
     d_ptr->m_bridge->setUi(this);
     //中历史记录view加载各自的html文件
     d_ptr->allView->load(QUrl("qrc:/html/resource/html/allHistory.html"));

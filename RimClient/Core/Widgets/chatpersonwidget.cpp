@@ -139,6 +139,7 @@ void ChatPersonWidgetPrivate::initWidget()
     QWebChannel *channel = new QWebChannel(mainWidget);
     channel->registerObject(QStringLiteral("chatBridge"),m_bridge);
     mainWidget->setChatChannel(channel);
+    q_ptr->setFixedWidth(1000);
 }
 
 ChatPersonWidget::ChatPersonWidget(QWidget *parent):

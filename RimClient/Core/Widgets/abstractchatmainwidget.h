@@ -82,6 +82,7 @@ public:
     void openTargetFolder(QString filePath);
     void setMsgState(QString serialNo);
     void setScrollFlag();
+
 protected:
     void keyPressEvent(QKeyEvent *e);
 

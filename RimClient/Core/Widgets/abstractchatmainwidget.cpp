@@ -300,10 +300,11 @@ void AbstractChatMainWidgetPrivate::initWidget()
     chatSplitter->setStretchFactor(1,1);
 
     leftLayout->addWidget(chatSplitter);
+
     //聊天窗口右边栏（显示消息记录、发送文件子窗口）
     rightSideWidget = new QTabWidget(q_ptr);
     rightSideWidget->setFixedWidth(RIGHTSIDE_WIDTH);
-//    rightSideWidget->setVisible(false);
+    //rightSideWidget->setVisible(false);
 
     rightSideWidget->setTabsClosable(true);
     rightSideWidget->setStyleSheet("QTabWidget::pane{"
@@ -357,7 +358,6 @@ AbstractChatMainWidget::AbstractChatMainWidget(QWidget *parent) :
 AbstractChatMainWidget::~AbstractChatMainWidget()
 {
     MQ_D(AbstractChatMainWidget);
-
     if(d->historyRecord)
     {
         d->historyRecord->close();
@@ -496,7 +496,7 @@ void AbstractChatMainWidget::setMsgState(QString serialNo)
     bool isConnected = Global::G_GlobalConfigFile->netSettings.connectedTextIpPort.isConnected();
     if(isConnected)
     {
-        //TODOsh
+        //TODO
         sendMsgState2Server("","",serialNo);
         updateRecvMsgState(ProtocolType::MSG_STATE_READYREAD,serialNo);
     }
