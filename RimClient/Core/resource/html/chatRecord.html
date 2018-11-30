@@ -822,8 +822,6 @@
                     imgBox[j].classList.add('imgMesContainer'); // 添加非重置
                 }
             }
-
-            //newDiv.scrollIntoView();
         }
 
     }
@@ -1501,31 +1499,31 @@
         scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
         return scrollHeight;
     }
-
+    var scrollTopElement;
     var scrollFunc = function (e) {
         e = e || window.event;
-
-        var contentDiv = document.getElementById('content');
-        if(document.getElementsByClassName('dialogContainer') !== undefined) {
-            var scrollTopElement = document.getElementsByClassName('dialogContainer')[0]
-        }
+        let contentDiv = document.getElementById('content');
+        let toptop = document.getElementById('main').scrollTop;
         if(!contentDiv)
             return;
-        if (contentDiv.scrollTop === 0 && e.wheelDelta >= 120 )
+        if (toptop === 0 && e.wheelDelta >= 120 )
         {
             //当滚动条在顶部后鼠标滚轮滚动
-            if(scrollLoadFlag !== true) {
+            if(scrollLoadFlag === false) {
+                if(document.getElementsByClassName('dialogContainer') !== undefined) {
+                    scrollTopElement = document.getElementsByClassName('dialogContainer')[0];
+                }
                 scrollLoadFlag = true;
                 bridge.getMoreRecord();
-                if(scrollTopElement) {
-                    scrollTopElement.scrollIntoView()
-                }
             }
         }
     }
 
     function setScrollFlag() {
         scrollLoadFlag = false;
+        if(scrollTopElement) {
+            scrollTopElement.scrollIntoView();
+        }
     }
 
     //点击获取流水号id

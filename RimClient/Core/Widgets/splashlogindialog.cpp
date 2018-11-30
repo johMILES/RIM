@@ -44,7 +44,7 @@
 #include "others/serialno.h"
 #include "Network/msgprocess/format495function.h"
 #include "../file/globalconfigfile.h"
-
+#include "abstractchatmainwidget.h"
 class SplashLoginDialogPrivate : public QObject,public GlobalData<SplashLoginDialog>
 {
     Q_DECLARE_PUBLIC(SplashLoginDialog)
@@ -318,6 +318,7 @@ void SplashLoginDialog::viewSystemNotify(NotifyInfo info,int notifyCount)
         {
             if(client->chatPersonWidget == NULL)
             {
+
                 client->chatPersonWidget = new ChatPersonWidget();
                 client->chatPersonWidget->setUserInfo(client->simpleUserInfo);
 #ifdef __LOCAL_CONTACT__
@@ -425,6 +426,7 @@ void SplashLoginDialog::respTextConnect(bool flag)
 
         if(!d->mainDialog){
             d->mainDialog = new MainDialog();
+            AbstractChatMainWidget *tempChat = new AbstractChatMainWidget(this);
             RSingleton<NotifyWindow>::instance()->bindTrayIcon(d->trayIcon);
             connect(RSingleton<NotifyWindow>::instance(),SIGNAL(showSystemNotifyInfo(NotifyInfo,int)),this,SLOT(viewSystemNotify(NotifyInfo,int)));
             connect(RSingleton<NotifyWindow>::instance(),SIGNAL(ignoreAllNotifyInfo()),d->trayIcon,SLOT(removeAll()));

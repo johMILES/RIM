@@ -448,9 +448,6 @@ void AbstractChatMainWidget::updateMsgRecord()
     MQ_D(AbstractChatMainWidget);
 
     RSingleton<ChatMsgProcess>::instance()->appendC2CMoreQueryTask(d->m_userInfo.accountId,d->m_recordCount,25);
-    QString t_javaScript = QString("");
-    t_javaScript = QString("setScrollFlag()");
-    d->view->page()->runJavaScript(t_javaScript);
 }
 
 /*!
@@ -507,6 +504,17 @@ void AbstractChatMainWidget::setMsgState(QString serialNo)
     {
         return;
     }
+}
+/*!
+ * @brief 强制滚动复位
+ * @note 鼠标滚动加载历史信息成功后滚动到上一次的第一条信息
+ */
+void AbstractChatMainWidget::setScrollFlag()
+{
+    MQ_D(AbstractChatMainWidget);
+    QString t_javaScript = QString("");
+    t_javaScript = QString("setScrollFlag()");
+    d->view->page()->runJavaScript(t_javaScript);
 }
 
 void AbstractChatMainWidget::keyPressEvent(QKeyEvent *e)
